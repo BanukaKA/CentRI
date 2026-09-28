@@ -1,0 +1,35 @@
+[project]
+name = "centri"
+version = "0.1.0"
+description = "Central Routing Intelligence — semantic API gateway for agent swarms"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "openai>=1.55.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.6.0",
+    "numpy>=2.1.0",
+    "faiss-cpu>=1.9.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+]
+
+[project.scripts]
+centri-compile = "scripts.compile:main"
+centri-serve = "centri.gateway.app:main"
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["centri*", "scripts*"]

@@ -127,6 +127,11 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# CentRI compiled artifacts
+data/compiled/
+data/shadow_logs/
+data/corrections/
+
 # Environments
 .env
 .venv
