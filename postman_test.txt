@@ -1,0 +1,122 @@
+CentRI Postman cURL Tests
+=========================
+
+Base URL:
+http://localhost:8080
+
+Import each command into Postman using:
+Import -> Raw text -> paste the cURL command -> Continue -> Import
+
+
+1. Health check
+--------------
+
+Purpose:
+Checks whether the CentRI API is running.
+
+curl --location "http://localhost:8080/health"
+
+
+2. List the agent catalog
+------------------------
+
+Purpose:
+Returns all agents loaded from sample_agent_router_dataset.json.
+Each agent includes its agent_id, name, optional display_name, and description.
+
+curl --location "http://localhost:8080/catalog" ^
+  --header "Accept: application/json"
+
+
+3. List agents with domain information
+--------------------------------------
+
+Purpose:
+Returns the agent catalog with the domain field included.
+
+curl --location "http://localhost:8080/agents" ^
+  --header "Accept: application/json"
+
+
+4. Route a query to an agent
+----------------------------
+
+Purpose:
+Routes a query and returns the agent_id and agent_name to call.
+This endpoint performs routing only; it does not execute the agent.
+
+curl --location "http://localhost:8080/route" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"query\":\"My VPN stopped working after I changed my password.\"}"
+
+
+5. Chat through CentRI
+----------------------
+
+Purpose:
+Routes the prompt and runs the current stub agent executor.
+The response includes the routing decision and the simulated agent response.
+
+curl --location "http://localhost:8080/chat" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"prompt\":\"My VPN stopped working after I changed my password.\"}"
+
+
+6. Chat with conversation history
+---------------------------------
+
+Purpose:
+Tests the chat endpoint with previous conversation messages.
+
+curl --location "http://localhost:8080/chat" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"prompt\":\"What should I do next?\",\"history\":[{\"role\":\"user\",\"content\":\"My VPN stopped working.\"},{\"role\":\"assistant\",\"content\":\"I can help troubleshoot the issue.\"}]}"
+
+
+7. Test compound-intent routing
+-------------------------------
+
+Purpose:
+Tests multi-intent sharding. CentRI may return multiple routes when the
+prompt contains separate tasks for different agents.
+
+curl --location "http://localhost:8080/route" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"query\":\"Analyze our cloud infrastructure spend and prepare an IT incident summary.\"}"
+
+
+8. Submit explicit routing feedback
+-----------------------------------
+
+Purpose:
+Associates a query with the correct agent and appends a correction vector
+to the local FAISS routing index.
+
+Replace the correct_agent_id with an agent ID from /catalog.
+
+curl --location "http://localhost:8080/feedback/routing" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"query\":\"My VPN stopped working after I changed my password.\",\"routed_agent_id\":\"agt_hr_policy_advisor\",\"correct_agent_id\":\"agt_it_service_desk_triage\",\"agent_refused\":true}"
+
+
+9. Log routing feedback without a correction
+--------------------------------------------
+
+Purpose:
+Logs feedback without changing the routing index.
+
+curl --location "http://localhost:8080/feedback/routing" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"query\":\"My VPN stopped working after I changed my password.\",\"routed_agent_id\":\"agt_it_service_desk_triage\",\"agent_refused\":false}"
+
+
+Notes
+-----
+
+- Start the API before testing:
+  python -m centri.gateway.app
+- The API must have a compiled FAISS index:
+  python -m scripts.compile
+- Runtime routing requires NEBIUS_API_KEY in .env.
+- These commands use Windows Command Prompt line continuation (^).
+- Postman can import these commands directly from raw text.

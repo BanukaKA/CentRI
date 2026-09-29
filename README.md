@@ -4,6 +4,14 @@
 
 Built for [Nebius Token Factory](https://docs.tokenfactory.nebius.com/) (OpenAI-compatible embeddings + chat) and optional [Tavily](https://tavily.com/) grounding for time-sensitive synthetic query generation.
 
+## Architecture artifact
+
+Open [`docs/centri-architecture.excalidraw`](docs/centri-architecture.excalidraw) in Excalidraw for the full architecture, scaling model, comparison with prompt-all LLM routing, typed one-pass decision models such as Jev, production boundary, and research sources. Regenerate it with:
+
+```bash
+python scripts/generate_architecture_diagram.py
+```
+
 ## Architecture
 
 | Phase | What runs | Output |
@@ -57,7 +65,9 @@ See `.env.example`. Key settings:
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/health` | Liveness |
-| `GET` | `/agents` | Catalog summary |
+| `GET` | `/catalog` | All agents: `agent_id`, `name`, optional `display_name`, `description` |
+| `GET` | `/agents` | Same catalog fields plus `domain` |
+| `POST` | `/route` | Route a `query` → `agent_id` and `agent_name` (no agent execution) |
 | `POST` | `/chat` | Route + stub agent execution |
 | `POST` | `/feedback/routing` | Log refusal or append correction vector |
 

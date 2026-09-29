@@ -1,0 +1,8 @@
+Compile Routing Index:
+python -m scripts.compile
+
+To Generate Queries with an LLM:
+python -m scripts.compile --synthesize --force-synthesize
+
+Starting the API:
+python -m centri.gateway.app

@@ -11,7 +11,7 @@ from centri.clients.nebius import NebiusClient
 from centri.config import Settings, get_settings
 from centri.feedback.shadow_log import ShadowLogger
 from centri.index.store import VectorIndex
-from centri.registry import load_catalog
+from centri.registry import agent_catalog_entry, load_catalog
 from centri.routing.pipeline import CentRIRouter
 
 
@@ -23,6 +23,10 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     prompt: str = Field(..., min_length=1)
     history: list[ChatMessage] = Field(default_factory=list)
+
+
+class RouteRequest(BaseModel):
+    query: str = Field(..., min_length=1, description="User utterance to route to an agent")
 
 
 class FeedbackRequest(BaseModel):
@@ -87,9 +91,61 @@ def list_agents() -> dict[str, Any]:
     return {
         "count": len(st.catalog.agents),
         "agents": [
-            {"agent_id": a.agent_id, "name": a.name, "domain": a.domain}
+            {**agent_catalog_entry(a), "domain": a.domain}
             for a in st.catalog.agents
         ],
+    }
+
+
+@app.get("/catalog")
+def catalog() -> dict[str, Any]:
+    """All agents from the configured catalog JSON: id, name(s), and description."""
+    st: AppState = app.state.centri
+    return {
+        "count": len(st.catalog.agents),
+        "agents": [agent_catalog_entry(a) for a in st.catalog.agents],
+    }
+
+
+@app.post("/route")
+def route(body: RouteRequest) -> dict[str, Any]:
+    """Return which agent(s) to call for a query — routing only, no agent execution."""
+    st: AppState = app.state.centri
+    try:
+        routing = st.router.route(body.query)
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    routes = [
+        {
+            "agent_id": d.agent_id,
+            "agent_name": d.agent_name,
+            "query": d.intent_shard,
+        }
+        for d in routing.decisions
+    ]
+    for d in routing.decisions:
+        st.shadow.log(
+            {
+                "endpoint": "/route",
+                "prompt": body.query,
+                "shard": d.intent_shard,
+                "routed_agent_id": d.agent_id,
+                "confidence": d.confidence,
+                "compound": routing.compound,
+            }
+        )
+
+    if not routing.compound and len(routes) == 1:
+        return {
+            "agent_id": routes[0]["agent_id"],
+            "agent_name": routes[0]["agent_name"],
+            "compound": False,
+        }
+
+    return {
+        "compound": routing.compound,
+        "routes": routes,
     }
 
 

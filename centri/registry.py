@@ -51,6 +51,19 @@ class AgentCatalog(BaseModel):
         return None
 
 
+def agent_catalog_entry(agent: AgentRecord) -> dict[str, str]:
+    """Public catalog shape: id, names, description from the loaded dataset."""
+    entry: dict[str, str] = {
+        "agent_id": agent.agent_id,
+        "name": agent.name,
+        "description": agent.description or "",
+    }
+    display_name = agent.raw.get("display_name")
+    if isinstance(display_name, str) and display_name.strip():
+        entry["display_name"] = display_name.strip()
+    return entry
+
+
 def load_catalog(path: Path) -> AgentCatalog:
     data = json.loads(path.read_text(encoding="utf-8"))
     agents: list[AgentRecord] = []
