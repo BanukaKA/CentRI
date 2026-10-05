@@ -9,6 +9,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import sys
 
 from centri.clients.nebius import NebiusClient
@@ -67,7 +68,16 @@ def main() -> None:
     index = VectorIndex(settings)
     print(f"Embedding {len(records)} queries with {settings.centri_embedding_model}...")
     index.build_from_records(nebius, records)
-    index.save()
+    manifest = {
+        "catalog_fingerprint": catalog.fingerprint(),
+        "embedding_model": settings.centri_embedding_model,
+        "synthesis_model": settings.centri_llm_model_synthesis if args.synthesize else None,
+        "index_type": settings.centri_index_type,
+        "queries_per_agent": settings.centri_queries_per_agent,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "version": 1,
+    }
+    index.save(manifest=manifest)
     print(f"Wrote FAISS index to {settings.index_path}")
     print(f"Metadata: {settings.metadata_path}")
     print(f"Query bank: {settings.queries_path}")

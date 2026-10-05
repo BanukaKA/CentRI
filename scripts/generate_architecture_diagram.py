@@ -280,7 +280,7 @@ def build() -> dict[str, Any]:
         (655, 900, 245, 230, "Intent sharder", "Nebius micro-model\nor heuristic fallback\nbounded shards required", PURPLE_FILL, PURPLE),
         (935, 900, 245, 230, "Stage 1 retrieve", "embed each shard\nFAISS top-25 vectors\nagent score aggregation", GREEN_FILL, GREEN),
         (1215, 900, 260, 230, "Stage 2 disambiguate", "Top-3 routing cards\nmicro-LLM choice\nrationale + score", AMBER_FILL, AMBER),
-        (1510, 900, 260, 230, "Agent handoff", "current: stub executor\nfuture: HTTP / MCP /\nworkflow runtime", RED_FILL, RED),
+        (1510, 900, 260, 230, "Agent handoff", "current: HTTP adapter\nmock fallback for sample\nworkflow metadata + guards", RED_FILL, RED),
         (1805, 900, 425, 230, "Response + telemetry", "one or many decisions\ncompound result set\nshadow log: prompt, score,\nagent, refusal signal", TEAL_FILL, TEAL),
     ]
     for x, y, w, h, title, body, fill, stroke in runtime_cards:

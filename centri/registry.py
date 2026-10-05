@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,9 @@ class AgentRecord(BaseModel):
         keywords = self.routing.get("keywords") or []
         examples = self.routing.get("example_queries") or []
         exclusions = self.routing.get("exclusions") or []
+        required_entities = self.routing.get("required_entities") or []
+        priority = self.routing.get("priority", "")
+        threshold = self.routing.get("confidence_threshold", "")
         tool_names = [t.get("name") or t.get("tool_id", "") for t in self.tools[:12]]
         lines = [
             f"agent_id: {self.agent_id}",
@@ -34,6 +38,9 @@ class AgentRecord(BaseModel):
             f"keywords: {', '.join(keywords[:20])}",
             f"tools: {', '.join(filter(None, tool_names))}",
             f"exclusions: {', '.join(exclusions)}",
+            f"required_entities: {', '.join(required_entities)}",
+            f"priority: {priority}",
+            f"catalog_confidence_threshold: {threshold}",
             "example_queries:",
         ]
         for ex in examples[:6]:
@@ -49,6 +56,11 @@ class AgentCatalog(BaseModel):
             if a.agent_id == agent_id:
                 return a
         return None
+
+    def fingerprint(self) -> str:
+        payload = [agent.raw for agent in self.agents]
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
 
 
 def agent_catalog_entry(agent: AgentRecord) -> dict[str, str]:

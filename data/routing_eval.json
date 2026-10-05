@@ -1,0 +1,374 @@
+{
+  "summary": {
+    "agents": 10,
+    "cases": 20,
+    "top1_accuracy": 1,
+    "recall_at_k": 1,
+    "abstention_rate": 0,
+    "mean_latency_ms": 5856.777,
+    "p95_latency_ms": 12137.27,
+    "confusion_pairs": {}
+  },
+  "cases": [
+    {
+      "case_id": "it_001",
+      "input": "My VPN stopped after a password change.",
+      "expected_agent_id": "agt_it_service_desk_triage",
+      "predicted_agent_id": "agt_it_service_desk_triage",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.8215024471282959,
+      "margin": 0.28983815193176266,
+      "latency_ms": 11917.61,
+      "candidates": [
+        "agt_it_service_desk_triage",
+        "agt_engineering_incident_commander",
+        "agt_product_backlog_analyst"
+      ]
+    },
+    {
+      "case_id": "it_002",
+      "input": "I entered my password on a suspicious login page.",
+      "expected_agent_id": "agt_it_service_desk_triage",
+      "predicted_agent_id": "agt_it_service_desk_triage",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.6769962310791016,
+      "margin": 0.023910779953002947,
+      "latency_ms": 4221.31,
+      "candidates": [
+        "agt_it_service_desk_triage",
+        "agt_engineering_incident_commander",
+        "agt_customer_support_resolution"
+      ]
+    },
+    {
+      "case_id": "ap_001",
+      "input": "Invoice with matching PO and receipt.",
+      "expected_agent_id": "agt_finance_ap_invoice_auditor",
+      "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.8047274351119995,
+      "margin": 0.3610924792289735,
+      "latency_ms": 5799.76,
+      "candidates": [
+        "agt_finance_ap_invoice_auditor",
+        "agt_customer_support_resolution",
+        "agt_contract_review_counsel"
+      ]
+    },
+    {
+      "case_id": "ap_002",
+      "input": "Same vendor and invoice number as a paid invoice, with a changed bank account.",
+      "expected_agent_id": "agt_finance_ap_invoice_auditor",
+      "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.795435905456543,
+      "margin": 0.26868660926818844,
+      "latency_ms": 3784.1,
+      "candidates": [
+        "agt_finance_ap_invoice_auditor",
+        "agt_customer_support_resolution",
+        "agt_sales_account_researcher"
+      ]
+    },
+    {
+      "case_id": "hr_001",
+      "input": "What is the vacation carryover rule for an employee in British Columbia?",
+      "expected_agent_id": "agt_hr_policy_advisor",
+      "predicted_agent_id": "agt_hr_policy_advisor",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.9412597417831421,
+      "margin": 0.4612550091743469,
+      "latency_ms": 3369.34,
+      "candidates": [
+        "agt_hr_policy_advisor",
+        "agt_contract_review_counsel",
+        "agt_engineering_incident_commander"
+      ]
+    },
+    {
+      "case_id": "hr_002",
+      "input": "I want to report harassment by my manager.",
+      "expected_agent_id": "agt_hr_policy_advisor",
+      "predicted_agent_id": "agt_hr_policy_advisor",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.7595323324203491,
+      "margin": 0.10799086093902588,
+      "latency_ms": 2774.21,
+      "candidates": [
+        "agt_hr_policy_advisor",
+        "agt_customer_support_resolution",
+        "agt_engineering_incident_commander"
+      ]
+    },
+    {
+      "case_id": "legal_001",
+      "input": "Vendor MSA with standard terms and one non-standard liability cap.",
+      "expected_agent_id": "agt_contract_review_counsel",
+      "predicted_agent_id": "agt_contract_review_counsel",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.8202754259109497,
+      "margin": 0.28049875736236574,
+      "latency_ms": 6180.1,
+      "candidates": [
+        "agt_contract_review_counsel",
+        "agt_finance_ap_invoice_auditor",
+        "agt_it_service_desk_triage"
+      ]
+    },
+    {
+      "case_id": "legal_002",
+      "input": "Compare version 3 and version 4 of a customer MSA.",
+      "expected_agent_id": "agt_contract_review_counsel",
+      "predicted_agent_id": "agt_contract_review_counsel",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.934166669845581,
+      "margin": 0.3880410385131837,
+      "latency_ms": 2735.39,
+      "candidates": [
+        "agt_contract_review_counsel",
+        "agt_it_service_desk_triage",
+        "agt_product_backlog_analyst"
+      ]
+    },
+    {
+      "case_id": "sales_001",
+      "input": "Prepare a brief for a named CRM account using the last 90 days of signals.",
+      "expected_agent_id": "agt_sales_account_researcher",
+      "predicted_agent_id": "agt_sales_account_researcher",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.8681418895721436,
+      "margin": 0.3672574710845947,
+      "latency_ms": 3805.76,
+      "candidates": [
+        "agt_sales_account_researcher",
+        "agt_engineering_incident_commander",
+        "agt_marketing_content_editor"
+      ]
+    },
+    {
+      "case_id": "sales_002",
+      "input": "Find the private home address of the prospect's CFO.",
+      "expected_agent_id": "agt_sales_account_researcher",
+      "predicted_agent_id": "agt_sales_account_researcher",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.9461957812309265,
+      "margin": 0.4388233399391174,
+      "latency_ms": 5294.77,
+      "candidates": [
+        "agt_sales_account_researcher",
+        "agt_it_service_desk_triage",
+        "agt_customer_support_resolution"
+      ]
+    },
+    {
+      "case_id": "cx_001",
+      "input": "Verified customer asks for shipment status on an order.",
+      "expected_agent_id": "agt_customer_support_resolution",
+      "predicted_agent_id": "agt_customer_support_resolution",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.7783619165420532,
+      "margin": 0.29229756116867067,
+      "latency_ms": 3290.53,
+      "candidates": [
+        "agt_customer_support_resolution",
+        "agt_finance_ap_invoice_auditor",
+        "agt_engineering_incident_commander"
+      ]
+    },
+    {
+      "case_id": "cx_002",
+      "input": "Unverified user asks for another person's order details.",
+      "expected_agent_id": "agt_customer_support_resolution",
+      "predicted_agent_id": "agt_customer_support_resolution",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.6989991664886475,
+      "margin": 0.08737725019454956,
+      "latency_ms": 6459.02,
+      "candidates": [
+        "agt_customer_support_resolution",
+        "agt_finance_ap_invoice_auditor",
+        "agt_sales_account_researcher"
+      ]
+    },
+    {
+      "case_id": "sre_001",
+      "input": "API 5xx errors rose after a deployment; investigate the last 30 minutes.",
+      "expected_agent_id": "agt_engineering_incident_commander",
+      "predicted_agent_id": "agt_engineering_incident_commander",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.7697794437408447,
+      "margin": 0.5197652399539948,
+      "latency_ms": 6236.32,
+      "candidates": [
+        "agt_engineering_incident_commander",
+        "agt_product_backlog_analyst",
+        "agt_finance_ap_invoice_auditor"
+      ]
+    },
+    {
+      "case_id": "sre_002",
+      "input": "Search raw production logs for a customer's full payload.",
+      "expected_agent_id": "agt_engineering_incident_commander",
+      "predicted_agent_id": "agt_engineering_incident_commander",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.7273118495941162,
+      "margin": 0.13721142292022703,
+      "latency_ms": 12222.08,
+      "candidates": [
+        "agt_engineering_incident_commander",
+        "agt_customer_support_resolution",
+        "agt_sales_account_researcher"
+      ]
+    },
+    {
+      "case_id": "product_001",
+      "input": "Two stories describe the same configuration requirement with different wording.",
+      "expected_agent_id": "agt_product_backlog_analyst",
+      "predicted_agent_id": "agt_product_backlog_analyst",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.6539236307144165,
+      "margin": 0.1868591260910033,
+      "latency_ms": 12137.27,
+      "candidates": [
+        "agt_product_backlog_analyst",
+        "agt_contract_review_counsel",
+        "agt_finance_ap_invoice_auditor"
+      ]
+    },
+    {
+      "case_id": "product_002",
+      "input": "Add a new requirement that is not present in any approved source.",
+      "expected_agent_id": "agt_product_backlog_analyst",
+      "predicted_agent_id": "agt_product_backlog_analyst",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.7583395838737488,
+      "margin": 0.38906193971633907,
+      "latency_ms": 4390.45,
+      "candidates": [
+        "agt_product_backlog_analyst",
+        "agt_finance_ap_invoice_auditor",
+        "agt_customer_support_resolution"
+      ]
+    },
+    {
+      "case_id": "grc_001",
+      "input": "Quarterly access review export with approver and completion date.",
+      "expected_agent_id": "agt_compliance_evidence_reviewer",
+      "predicted_agent_id": "agt_compliance_evidence_reviewer",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.9127539396286011,
+      "margin": 0.33007589817047134,
+      "latency_ms": 10480.43,
+      "candidates": [
+        "agt_compliance_evidence_reviewer",
+        "agt_sales_account_researcher",
+        "agt_it_service_desk_triage"
+      ]
+    },
+    {
+      "case_id": "grc_002",
+      "input": "A policy document is submitted as proof that a quarterly review operated.",
+      "expected_agent_id": "agt_compliance_evidence_reviewer",
+      "predicted_agent_id": "agt_compliance_evidence_reviewer",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.95,
+      "similarity": 0.7229939699172974,
+      "margin": 0.21692933082580557,
+      "latency_ms": 5636.86,
+      "candidates": [
+        "agt_compliance_evidence_reviewer",
+        "agt_contract_review_counsel",
+        "agt_finance_ap_invoice_auditor"
+      ]
+    },
+    {
+      "case_id": "content_001",
+      "input": "Draft an accessible product landing page from approved facts.",
+      "expected_agent_id": "agt_marketing_content_editor",
+      "predicted_agent_id": "agt_marketing_content_editor",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.9234703779220581,
+      "margin": 0.44834885597229,
+      "latency_ms": 2767.41,
+      "candidates": [
+        "agt_marketing_content_editor",
+        "agt_product_backlog_analyst",
+        "agt_customer_support_resolution"
+      ]
+    },
+    {
+      "case_id": "content_002",
+      "input": "Publish copy that includes an unsupported customer savings claim.",
+      "expected_agent_id": "agt_marketing_content_editor",
+      "predicted_agent_id": "agt_marketing_content_editor",
+      "correct": true,
+      "recall_at_k": true,
+      "abstained": false,
+      "confidence": 0.92,
+      "similarity": 0.8771305680274963,
+      "margin": 0.2778354287147522,
+      "latency_ms": 3632.82,
+      "candidates": [
+        "agt_marketing_content_editor",
+        "agt_customer_support_resolution",
+        "agt_finance_ap_invoice_auditor"
+      ]
+    }
+  ]
+}

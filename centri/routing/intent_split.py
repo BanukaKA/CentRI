@@ -26,20 +26,24 @@ def split_intents(prompt: str, nebius: NebiusClient | None, settings: Settings) 
             temperature=0.0,
             max_tokens=512,
         )
-        intents = [str(i).strip() for i in (data.get("intents") or []) if str(i).strip()]
+        intents = [
+            str(i).strip()
+            for i in (data.get("intents") or [])[: settings.centri_max_intent_shards]
+            if str(i).strip()
+        ]
         if intents:
             return intents
     except Exception:
         pass
-    return _heuristic_split(prompt)
+    return _heuristic_split(prompt, settings.centri_max_intent_shards)
 
 
-def _heuristic_split(prompt: str) -> list[str]:
+def _heuristic_split(prompt: str, max_shards: int = 3) -> list[str]:
     lowered = prompt.lower()
     markers = [" and also ", " and then ", "; ", " — ", " - "]
     for m in markers:
         if m in lowered and len(prompt) > 40:
             parts = [p.strip() for p in prompt.split(m) if p.strip()]
             if len(parts) >= 2:
-                return parts[:3]
+                return parts[:max_shards]
     return [prompt]

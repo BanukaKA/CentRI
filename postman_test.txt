@@ -4,6 +4,14 @@ CentRI Postman cURL Tests
 Base URL:
 http://localhost:8080
 
+When CENTRI_AUTH_REQUIRED=true, add this header to every endpoint except
+/health:
+
+  Authorization: Bearer <JWT_TOKEN>
+
+The JWT must contain a valid signature using CENTRI_JWT_SECRET. Feedback also
+requires an admin or operator role.
+
 Import each command into Postman using:
 Import -> Raw text -> paste the cURL command -> Continue -> Import
 
@@ -54,8 +62,9 @@ curl --location "http://localhost:8080/route" ^
 ----------------------
 
 Purpose:
-Routes the prompt and runs the current stub agent executor.
-The response includes the routing decision and the simulated agent response.
+Routes the prompt and concurrently calls configured HTTP agent runtimes.
+If no runtime endpoint is configured and CENTRI_MOCK_EXECUTION=true, the
+response is explicitly marked as simulated.
 
 curl --location "http://localhost:8080/chat" ^
   --header "Content-Type: application/json" ^
@@ -95,6 +104,7 @@ to the local FAISS routing index.
 Replace the correct_agent_id with an agent ID from /catalog.
 
 curl --location "http://localhost:8080/feedback/routing" ^
+  --header "Authorization: Bearer <ADMIN_OR_OPERATOR_JWT_TOKEN>" ^
   --header "Content-Type: application/json" ^
   --data "{\"query\":\"My VPN stopped working after I changed my password.\",\"routed_agent_id\":\"agt_hr_policy_advisor\",\"correct_agent_id\":\"agt_it_service_desk_triage\",\"agent_refused\":true}"
 
@@ -106,6 +116,7 @@ Purpose:
 Logs feedback without changing the routing index.
 
 curl --location "http://localhost:8080/feedback/routing" ^
+  --header "Authorization: Bearer <ADMIN_OR_OPERATOR_JWT_TOKEN>" ^
   --header "Content-Type: application/json" ^
   --data "{\"query\":\"My VPN stopped working after I changed my password.\",\"routed_agent_id\":\"agt_it_service_desk_triage\",\"agent_refused\":false}"
 
@@ -115,8 +126,10 @@ Notes
 
 - Start the API before testing:
   python -m centri.gateway.app
-- The API must have a compiled FAISS index:
+- The API must have a compiled FAISS index and manifest:
   python -m scripts.compile
 - Runtime routing requires NEBIUS_API_KEY in .env.
+- The default index is HNSW; use CENTRI_INDEX_TYPE=flat for the exact baseline.
+- The API can abstain when routing confidence or candidate separation is too low.
 - These commands use Windows Command Prompt line continuation (^).
 - Postman can import these commands directly from raw text.

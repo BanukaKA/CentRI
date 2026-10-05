@@ -24,7 +24,10 @@ def _tavily_context(tavily: TavilyClient, agent: AgentRecord) -> str:
     if not tavily.enabled or not _needs_fresh_context(agent):
         return ""
     query = f"{agent.name} {agent.domain} recent updates industry news"
-    results = tavily.search(query, max_results=4)
+    try:
+        results = tavily.search(query, max_results=4)
+    except Exception:
+        return ""
     if not results:
         return ""
     snippets = []
@@ -72,16 +75,17 @@ def generate_synthetic_queries(
         "Queries must be diverse (short keywords, full sentences, multi-step tasks). "
         "Do not include agent names or meta commentary."
     )
-    user = f"""Target agent (route HERE):
-{agent.routing_card()}
-
-Adjacent agents (generate HARD NEGATIVES — utterances that sound related but must NOT match these):
-{peer_cards or "(none)"}
-
-{f"{tavily_block}\n" if tavily_block else ""}
-Generate exactly {count} user queries that should be routed ONLY to the target agent.
-Include ~20% hard negatives: phrasing that could confuse adjacent agents but still belongs to the target.
-"""
+    timely_context = f"{tavily_block}\n" if tavily_block else ""
+    user = (
+        f"Target agent (route HERE):\n{agent.routing_card()}\n\n"
+        "Adjacent agents (generate HARD NEGATIVES — utterances that sound related "
+        "but must NOT match these):\n"
+        f"{peer_cards or '(none)'}\n\n"
+        f"{timely_context}"
+        f"Generate exactly {count} user queries that should be routed ONLY to the target agent.\n"
+        "Include ~20% hard negatives: phrasing that could confuse adjacent agents "
+        "but still belongs to the target.\n"
+    )
     data = nebius.chat_json(
         system=system,
         user=user,
@@ -107,9 +111,6 @@ def load_or_build_query_bank(
     seeds = bootstrap_seed_queries(agent)
     target = settings.centri_queries_per_agent
     if nebius is None or not settings.nebius_api_key:
-        # Repeat seeds with light paraphrase placeholders for local dev
-        while len(seeds) < min(target, len(seeds) * 3 + 1):
-            seeds.extend(bootstrap_seed_queries(agent))
         return list(dict.fromkeys(seeds))[:target]
 
     need = max(0, target - len(seeds))
@@ -127,14 +128,25 @@ def build_full_query_bank(
     settings: Settings,
     cached_path: Path,
 ) -> dict[str, list[str]]:
+    metadata = {
+        "catalog_fingerprint": catalog.fingerprint(),
+        "embedding_model": settings.centri_embedding_model,
+        "synthesis_model": settings.centri_llm_model_synthesis,
+        "queries_per_agent": settings.centri_queries_per_agent,
+    }
     cached: dict[str, list[str]] = {}
     if cached_path.exists():
-        cached = json.loads(cached_path.read_text(encoding="utf-8"))
+        payload = json.loads(cached_path.read_text(encoding="utf-8"))
+        if isinstance(payload, dict) and payload.get("metadata") == metadata:
+            cached = payload.get("queries") or {}
     bank: dict[str, list[str]] = {}
     for agent in catalog.agents:
         bank[agent.agent_id] = load_or_build_query_bank(
             agent, catalog, nebius, tavily, settings, cached
         )
     cached_path.parent.mkdir(parents=True, exist_ok=True)
-    cached_path.write_text(json.dumps(bank, indent=2), encoding="utf-8")
+    cached_path.write_text(
+        json.dumps({"metadata": metadata, "queries": bank}, indent=2),
+        encoding="utf-8",
+    )
     return bank
