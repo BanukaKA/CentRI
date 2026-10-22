@@ -6,7 +6,7 @@
     "embedding_model": "Qwen/Qwen3-Embedding-8B",
     "decision_model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
     "index_type": "hnsw",
-    "measured_at_utc": "2026-10-22T01:38:58Z",
+    "measured_at_utc": "2026-10-22T02:10:22Z",
     "methodology": "Synthetic catalog golden cases; measured values are not production-scale guarantees."
   },
   "baselines": {
@@ -20,8 +20,8 @@
         "coverage": 0.8,
         "selective_accuracy": 1,
         "error_rate": 0,
-        "mean_latency_ms": 5086.26,
-        "p95_latency_ms": 7577.92,
+        "mean_latency_ms": 3086.12,
+        "p95_latency_ms": 5529.71,
         "confusion_pairs": {},
         "candidate_recall_at_k": 1
       },
@@ -34,8 +34,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 4511.02,
-          "p95_latency_ms": 4999.29,
+          "mean_latency_ms": 2828.36,
+          "p95_latency_ms": 2990.19,
           "confusion_pairs": {}
         },
         "agt_contract_review_counsel": {
@@ -46,8 +46,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 6087.68,
-          "p95_latency_ms": 6110.01,
+          "mean_latency_ms": 3941.86,
+          "p95_latency_ms": 5529.71,
           "confusion_pairs": {}
         },
         "agt_customer_support_resolution": {
@@ -58,8 +58,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 3516.52,
-          "p95_latency_ms": 3571.4,
+          "mean_latency_ms": 4407.93,
+          "p95_latency_ms": 4849.11,
           "confusion_pairs": {}
         },
         "agt_engineering_incident_commander": {
@@ -70,8 +70,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 5448.43,
-          "p95_latency_ms": 7265.53,
+          "mean_latency_ms": 3173.94,
+          "p95_latency_ms": 3785.03,
           "confusion_pairs": {}
         },
         "agt_finance_ap_invoice_auditor": {
@@ -82,8 +82,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 5966.99,
-          "p95_latency_ms": 7577.92,
+          "mean_latency_ms": 1893.67,
+          "p95_latency_ms": 2110.47,
           "confusion_pairs": {}
         },
         "agt_hr_policy_advisor": {
@@ -94,8 +94,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 3226.53,
-          "p95_latency_ms": 3265.15,
+          "mean_latency_ms": 1742.41,
+          "p95_latency_ms": 2049.73,
           "confusion_pairs": {}
         },
         "agt_it_service_desk_triage": {
@@ -106,8 +106,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 5948.78,
-          "p95_latency_ms": 7657.5,
+          "mean_latency_ms": 2556.11,
+          "p95_latency_ms": 2562.45,
           "confusion_pairs": {}
         },
         "agt_marketing_content_editor": {
@@ -118,8 +118,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 4941.53,
-          "p95_latency_ms": 6787.65,
+          "mean_latency_ms": 3264.8,
+          "p95_latency_ms": 4535.7,
           "confusion_pairs": {}
         },
         "agt_product_backlog_analyst": {
@@ -130,8 +130,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 5537.69,
-          "p95_latency_ms": 5797.14,
+          "mean_latency_ms": 2804.93,
+          "p95_latency_ms": 3868.29,
           "confusion_pairs": {}
         },
         "agt_sales_account_researcher": {
@@ -142,8 +142,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 5677.4,
-          "p95_latency_ms": 6860.72,
+          "mean_latency_ms": 4247.16,
+          "p95_latency_ms": 6244.51,
           "confusion_pairs": {}
         }
       },
@@ -156,7 +156,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 4240.06
+          "latency_ms": 2562.45
         },
         {
           "case_id": "it_002",
@@ -166,7 +166,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 7657.5
+          "latency_ms": 2549.78
         },
         {
           "case_id": "ap_001",
@@ -176,7 +176,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 4356.07
+          "latency_ms": 1676.87
         },
         {
           "case_id": "ap_002",
@@ -186,7 +186,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 7577.92
+          "latency_ms": 2110.47
         },
         {
           "case_id": "hr_001",
@@ -196,7 +196,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 3265.15
+          "latency_ms": 2049.73
         },
         {
           "case_id": "hr_002",
@@ -206,7 +206,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 3187.91
+          "latency_ms": 1435.09
         },
         {
           "case_id": "legal_001",
@@ -216,7 +216,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 6065.36
+          "latency_ms": 2354.0
         },
         {
           "case_id": "legal_002",
@@ -226,7 +226,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 6110.01
+          "latency_ms": 5529.71
         },
         {
           "case_id": "sales_001",
@@ -236,7 +236,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 6860.72
+          "latency_ms": 6244.51
         },
         {
           "case_id": "sales_002",
@@ -246,7 +246,7 @@
           "abstained": true,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 4494.07
+          "latency_ms": 2249.8
         },
         {
           "case_id": "cx_001",
@@ -256,7 +256,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 3461.64
+          "latency_ms": 4849.11
         },
         {
           "case_id": "cx_002",
@@ -266,7 +266,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 3571.4
+          "latency_ms": 3966.76
         },
         {
           "case_id": "sre_001",
@@ -276,7 +276,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 3631.34
+          "latency_ms": 3785.03
         },
         {
           "case_id": "sre_002",
@@ -286,7 +286,7 @@
           "abstained": true,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 7265.53
+          "latency_ms": 2562.85
         },
         {
           "case_id": "product_001",
@@ -296,7 +296,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 5797.14
+          "latency_ms": 1741.56
         },
         {
           "case_id": "product_002",
@@ -306,7 +306,7 @@
           "abstained": true,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 5278.25
+          "latency_ms": 3868.29
         },
         {
           "case_id": "grc_001",
@@ -316,7 +316,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 4999.29
+          "latency_ms": 2990.19
         },
         {
           "case_id": "grc_002",
@@ -326,7 +326,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 4022.75
+          "latency_ms": 2666.52
         },
         {
           "case_id": "content_001",
@@ -336,7 +336,7 @@
           "abstained": false,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 6787.65
+          "latency_ms": 1993.91
         },
         {
           "case_id": "content_002",
@@ -346,7 +346,7 @@
           "abstained": true,
           "error": false,
           "recall_at_k": true,
-          "latency_ms": 3095.42
+          "latency_ms": 4535.7
         }
       ]
     },
@@ -360,8 +360,8 @@
         "coverage": 1,
         "selective_accuracy": 0.8,
         "error_rate": 0,
-        "mean_latency_ms": 0.33,
-        "p95_latency_ms": 0.42,
+        "mean_latency_ms": 0.29,
+        "p95_latency_ms": 0.31,
         "confusion_pairs": {
           "agt_hr_policy_advisor -> agt_it_service_desk_triage": 1,
           "agt_customer_support_resolution -> agt_finance_ap_invoice_auditor": 1,
@@ -378,8 +378,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 0.29,
-          "p95_latency_ms": 0.3,
+          "mean_latency_ms": 0.3,
+          "p95_latency_ms": 0.31,
           "confusion_pairs": {}
         },
         "agt_contract_review_counsel": {
@@ -390,8 +390,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 0.33,
-          "p95_latency_ms": 0.35,
+          "mean_latency_ms": 0.28,
+          "p95_latency_ms": 0.28,
           "confusion_pairs": {}
         },
         "agt_customer_support_resolution": {
@@ -402,8 +402,8 @@
           "coverage": 1,
           "selective_accuracy": 0.5,
           "error_rate": 0,
-          "mean_latency_ms": 0.36,
-          "p95_latency_ms": 0.41,
+          "mean_latency_ms": 0.28,
+          "p95_latency_ms": 0.28,
           "confusion_pairs": {
             "agt_customer_support_resolution -> agt_finance_ap_invoice_auditor": 1
           }
@@ -416,8 +416,8 @@
           "coverage": 1,
           "selective_accuracy": 0.5,
           "error_rate": 0,
-          "mean_latency_ms": 0.3,
-          "p95_latency_ms": 0.3,
+          "mean_latency_ms": 0.28,
+          "p95_latency_ms": 0.28,
           "confusion_pairs": {
             "agt_engineering_incident_commander -> agt_marketing_content_editor": 1
           }
@@ -430,8 +430,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 0.41,
-          "p95_latency_ms": 0.42,
+          "mean_latency_ms": 0.29,
+          "p95_latency_ms": 0.29,
           "confusion_pairs": {}
         },
         "agt_hr_policy_advisor": {
@@ -442,8 +442,8 @@
           "coverage": 1,
           "selective_accuracy": 0.5,
           "error_rate": 0,
-          "mean_latency_ms": 0.36,
-          "p95_latency_ms": 0.38,
+          "mean_latency_ms": 0.29,
+          "p95_latency_ms": 0.29,
           "confusion_pairs": {
             "agt_hr_policy_advisor -> agt_it_service_desk_triage": 1
           }
@@ -456,8 +456,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 0.39,
-          "p95_latency_ms": 0.48,
+          "mean_latency_ms": 0.35,
+          "p95_latency_ms": 0.41,
           "confusion_pairs": {}
         },
         "agt_marketing_content_editor": {
@@ -468,8 +468,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 0.29,
-          "p95_latency_ms": 0.29,
+          "mean_latency_ms": 0.28,
+          "p95_latency_ms": 0.28,
           "confusion_pairs": {}
         },
         "agt_product_backlog_analyst": {
@@ -480,8 +480,8 @@
           "coverage": 1,
           "selective_accuracy": 0.5,
           "error_rate": 0,
-          "mean_latency_ms": 0.28,
-          "p95_latency_ms": 0.28,
+          "mean_latency_ms": 0.29,
+          "p95_latency_ms": 0.29,
           "confusion_pairs": {
             "agt_product_backlog_analyst -> agt_hr_policy_advisor": 1
           }
@@ -494,8 +494,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 0.32,
-          "p95_latency_ms": 0.35,
+          "mean_latency_ms": 0.29,
+          "p95_latency_ms": 0.29,
           "confusion_pairs": {}
         }
       },
@@ -507,7 +507,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.48
+          "latency_ms": 0.41
         },
         {
           "case_id": "it_002",
@@ -525,7 +525,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.42
+          "latency_ms": 0.29
         },
         {
           "case_id": "ap_002",
@@ -534,7 +534,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.4
+          "latency_ms": 0.29
         },
         {
           "case_id": "hr_001",
@@ -543,7 +543,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.38
+          "latency_ms": 0.29
         },
         {
           "case_id": "hr_002",
@@ -552,7 +552,7 @@
           "correct": false,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.35
+          "latency_ms": 0.29
         },
         {
           "case_id": "legal_001",
@@ -561,7 +561,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.35
+          "latency_ms": 0.28
         },
         {
           "case_id": "legal_002",
@@ -570,7 +570,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.31
+          "latency_ms": 0.28
         },
         {
           "case_id": "sales_001",
@@ -588,7 +588,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.35
+          "latency_ms": 0.28
         },
         {
           "case_id": "cx_001",
@@ -597,7 +597,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.41
+          "latency_ms": 0.28
         },
         {
           "case_id": "cx_002",
@@ -606,7 +606,7 @@
           "correct": false,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.31
+          "latency_ms": 0.28
         },
         {
           "case_id": "sre_001",
@@ -615,7 +615,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.3
+          "latency_ms": 0.28
         },
         {
           "case_id": "sre_002",
@@ -624,7 +624,7 @@
           "correct": false,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.3
+          "latency_ms": 0.28
         },
         {
           "case_id": "product_001",
@@ -642,7 +642,7 @@
           "correct": false,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.28
+          "latency_ms": 0.29
         },
         {
           "case_id": "grc_001",
@@ -651,7 +651,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.29
+          "latency_ms": 0.31
         },
         {
           "case_id": "grc_002",
@@ -660,7 +660,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.3
+          "latency_ms": 0.28
         },
         {
           "case_id": "content_001",
@@ -669,7 +669,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.29
+          "latency_ms": 0.28
         },
         {
           "case_id": "content_002",
@@ -678,7 +678,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 0.29
+          "latency_ms": 0.28
         }
       ]
     },
@@ -692,8 +692,8 @@
         "coverage": 0.7,
         "selective_accuracy": 1,
         "error_rate": 0,
-        "mean_latency_ms": 2089.53,
-        "p95_latency_ms": 2998.14,
+        "mean_latency_ms": 1463.48,
+        "p95_latency_ms": 1999.46,
         "confusion_pairs": {}
       },
       "by_expected_agent": {
@@ -705,8 +705,8 @@
           "coverage": 0,
           "selective_accuracy": 0.0,
           "error_rate": 0,
-          "mean_latency_ms": 3141.61,
-          "p95_latency_ms": 3288.4,
+          "mean_latency_ms": 1941.12,
+          "p95_latency_ms": 1999.46,
           "confusion_pairs": {}
         },
         "agt_contract_review_counsel": {
@@ -717,8 +717,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 1604.83,
-          "p95_latency_ms": 1772.66,
+          "mean_latency_ms": 983.24,
+          "p95_latency_ms": 1040.02,
           "confusion_pairs": {}
         },
         "agt_customer_support_resolution": {
@@ -729,8 +729,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 1895.27,
-          "p95_latency_ms": 2355.0,
+          "mean_latency_ms": 1734.76,
+          "p95_latency_ms": 1896.61,
           "confusion_pairs": {}
         },
         "agt_engineering_incident_commander": {
@@ -741,8 +741,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 2418.01,
-          "p95_latency_ms": 2785.41,
+          "mean_latency_ms": 1508.89,
+          "p95_latency_ms": 1921.28,
           "confusion_pairs": {}
         },
         "agt_finance_ap_invoice_auditor": {
@@ -753,8 +753,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 1491.01,
-          "p95_latency_ms": 1680.75,
+          "mean_latency_ms": 1002.63,
+          "p95_latency_ms": 1098.55,
           "confusion_pairs": {}
         },
         "agt_hr_policy_advisor": {
@@ -765,8 +765,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 1755.64,
-          "p95_latency_ms": 1942.19,
+          "mean_latency_ms": 1229.22,
+          "p95_latency_ms": 1567.14,
           "confusion_pairs": {}
         },
         "agt_it_service_desk_triage": {
@@ -777,8 +777,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 2015.84,
-          "p95_latency_ms": 2518.98,
+          "mean_latency_ms": 1458.46,
+          "p95_latency_ms": 1783.57,
           "confusion_pairs": {}
         },
         "agt_marketing_content_editor": {
@@ -789,8 +789,8 @@
           "coverage": 1,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 1473.12,
-          "p95_latency_ms": 1744.46,
+          "mean_latency_ms": 1189.8,
+          "p95_latency_ms": 1434.61,
           "confusion_pairs": {}
         },
         "agt_product_backlog_analyst": {
@@ -801,8 +801,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 2644.07,
-          "p95_latency_ms": 2998.14,
+          "mean_latency_ms": 2001.13,
+          "p95_latency_ms": 2023.82,
           "confusion_pairs": {}
         },
         "agt_sales_account_researcher": {
@@ -813,8 +813,8 @@
           "coverage": 0.5,
           "selective_accuracy": 1,
           "error_rate": 0,
-          "mean_latency_ms": 2455.85,
-          "p95_latency_ms": 2866.09,
+          "mean_latency_ms": 1585.51,
+          "p95_latency_ms": 1756.29,
           "confusion_pairs": {}
         }
       },
@@ -826,7 +826,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1512.7
+          "latency_ms": 1133.36
         },
         {
           "case_id": "it_002",
@@ -835,7 +835,7 @@
           "correct": false,
           "abstained": true,
           "error": false,
-          "latency_ms": 2518.98
+          "latency_ms": 1783.57
         },
         {
           "case_id": "ap_001",
@@ -844,7 +844,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1301.28
+          "latency_ms": 906.71
         },
         {
           "case_id": "ap_002",
@@ -853,7 +853,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1680.75
+          "latency_ms": 1098.55
         },
         {
           "case_id": "hr_001",
@@ -862,7 +862,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1569.1
+          "latency_ms": 891.31
         },
         {
           "case_id": "hr_002",
@@ -871,7 +871,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1942.19
+          "latency_ms": 1567.14
         },
         {
           "case_id": "legal_001",
@@ -880,7 +880,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1772.66
+          "latency_ms": 926.45
         },
         {
           "case_id": "legal_002",
@@ -889,7 +889,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1437.0
+          "latency_ms": 1040.02
         },
         {
           "case_id": "sales_001",
@@ -898,7 +898,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 2045.61
+          "latency_ms": 1414.74
         },
         {
           "case_id": "sales_002",
@@ -907,7 +907,7 @@
           "correct": false,
           "abstained": true,
           "error": false,
-          "latency_ms": 2866.09
+          "latency_ms": 1756.29
         },
         {
           "case_id": "cx_001",
@@ -916,7 +916,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1435.54
+          "latency_ms": 1572.9
         },
         {
           "case_id": "cx_002",
@@ -925,7 +925,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 2355.0
+          "latency_ms": 1896.61
         },
         {
           "case_id": "sre_001",
@@ -934,7 +934,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 2050.61
+          "latency_ms": 1096.51
         },
         {
           "case_id": "sre_002",
@@ -943,7 +943,7 @@
           "correct": false,
           "abstained": true,
           "error": false,
-          "latency_ms": 2785.41
+          "latency_ms": 1921.28
         },
         {
           "case_id": "product_001",
@@ -952,7 +952,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 2290.0
+          "latency_ms": 2023.82
         },
         {
           "case_id": "product_002",
@@ -961,7 +961,7 @@
           "correct": false,
           "abstained": true,
           "error": false,
-          "latency_ms": 2998.14
+          "latency_ms": 1978.44
         },
         {
           "case_id": "grc_001",
@@ -970,7 +970,7 @@
           "correct": false,
           "abstained": true,
           "error": false,
-          "latency_ms": 3288.4
+          "latency_ms": 1882.77
         },
         {
           "case_id": "grc_002",
@@ -979,7 +979,7 @@
           "correct": false,
           "abstained": true,
           "error": false,
-          "latency_ms": 2994.83
+          "latency_ms": 1999.46
         },
         {
           "case_id": "content_001",
@@ -988,7 +988,7 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1201.77
+          "latency_ms": 944.98
         },
         {
           "case_id": "content_002",
@@ -997,23 +997,9 @@
           "correct": true,
           "abstained": false,
           "error": false,
-          "latency_ms": 1744.46
+          "latency_ms": 1434.61
         }
       ]
-    },
-    "jev": {
-      "name": "jev",
-      "metrics": {
-        "status": "not_measured",
-        "reason": "No authenticated comparison endpoint configured"
-      }
-    },
-    "clef": {
-      "name": "clef",
-      "metrics": {
-        "status": "not_measured",
-        "reason": "No authenticated comparison endpoint configured"
-      }
     }
   },
   "scale_projection": [
@@ -1049,9 +1035,5 @@
       "flat_distance_terms_per_query": 2048000000,
       "interpretation": "projection, not a measured latency"
     }
-  ],
-  "external_comparison_notes": {
-    "jev": "Not measured unless CENTRI_JEV_URL and CENTRI_JEV_API_KEY are configured. Public Jev claims are documented separately and are not substituted for measurements.",
-    "cloudflare_clef": "Not measured unless CENTRI_CLEF_URL and CENTRI_CLEF_API_KEY are configured. Clef is a decision model; Cloudflare AI Search/Vectorize are separate retrieval products."
-  }
+  ]
 }

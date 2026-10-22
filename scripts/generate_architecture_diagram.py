@@ -339,7 +339,7 @@ def build() -> dict[str, Any]:
     d.line(120, 2120, 2220, 2120, "#cbd5e1")
     rows = [
         (2140, "Prompt every LLM", "Open-ended reasoning\nfamiliar interface", "Input context and cost\nscale with A", "Text + implicit choice", "Use only for small catalogs or final synthesis"),
-        (2200, "Jev / typed decision", "Fast parallel typed output\nprobabilities", "Public Choice interface\nsupports ≤255 options", "Closed, enumerated options", "Excellent candidate chooser; retrieve first beyond 255"),
+        (2200, "Flat choice surface", "Fast bounded decision", "Full option catalog must\nbe serialized and maintained", "Closed, enumerated options", "Inefficient discovery at 1k–1M agents; retrieve first"),
         (2260, "Single classifier", "One forward pass\ncheap after training", "Needs labeled taxonomy\nretraining for new agents", "Closed labels", "Fast baseline; weak under agent churn / open world"),
         (2320, "CentRI", "Offline memory +\nretrieve / rerank", "Current Flat index is O(V×D);\nANN + eval still required", "Open catalog → Top-K → route", "Single entry point, bounded reasoning, incremental compilation"),
     ]
@@ -383,9 +383,7 @@ def build() -> dict[str, Any]:
         "   IndexFlatIP is exact; normalized vectors support cosine-style search; HNSW / IVF trade recall, memory, and speed.\n"
         "2. Two-stage retrieval evidence: arxiv.org/abs/2212.06121 and arxiv.org/abs/2205.10569\n"
         "   Dense retrieval supplies candidates; cross-encoder/reranker improves precision at added latency.\n"
-        "3. Jev public interface: jevtypesafeai.com/jev/architecture and getmaxim.ai/articles/what-is-jev-system-one-model/\n"
-        "   Choice is documented as up to 255 options; this is a product/interface limit, not a universal single-pass limit.\n"
-        "4. Nebius Token Factory docs: docs.tokenfactory.nebius.com/api-reference/examples/create-embeddings\n"
+        "3. Nebius Token Factory docs: docs.tokenfactory.nebius.com/api-reference/examples/create-embeddings\n"
         "   OpenAI-compatible embeddings/chat are the implementation basis in this repository."
     )
     d.text(120, 2985, sources, 13, INK, width=2100)

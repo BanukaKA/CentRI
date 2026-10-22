@@ -23,12 +23,6 @@ class Settings(BaseSettings):
     centri_compiled_dir: Path = Path("data/compiled")
     centri_shadow_log_dir: Path = Path("data/shadow_logs")
     centri_agent_endpoints_json: str = "{}"
-    centri_jev_url: str = ""
-    centri_jev_api_key: str = ""
-    centri_jev_model: str = "jev-latest"
-    centri_clef_url: str = ""
-    centri_clef_api_key: str = ""
-    centri_clef_model: str = "@cf/cloudflare/clef-flash"
 
     centri_top_k_vectors: int = 25
     centri_top_k_agents_rerank: int = 3

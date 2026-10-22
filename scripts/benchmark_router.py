@@ -5,12 +5,7 @@ Measured baselines:
   - lexical: deterministic keyword/example overlap
   - prompt_all: one Nebius LLM call with the complete catalog
 
-Optional external adapters:
-  - jev: set CENTRI_JEV_URL and CENTRI_JEV_API_KEY
-  - clef: set CENTRI_CLEF_URL and CENTRI_CLEF_API_KEY
-
-The report separates measured values from scale projections. It never invents
-Jev or Cloudflare values when credentials are unavailable.
+The report separates measured values from scale projections.
 """
 
 from __future__ import annotations
@@ -24,8 +19,6 @@ from collections import Counter
 from pathlib import Path
 from statistics import mean
 from typing import Any, Callable
-
-import httpx
 
 from centri.clients.nebius import NebiusClient
 from centri.config import Settings, get_settings
@@ -94,61 +87,6 @@ def prompt_all_route(query: str, catalog: AgentCatalog, client: NebiusClient, se
         return candidate if catalog.by_id(candidate) else None
     except Exception:
         return None
-
-
-def parse_decision_response(payload: dict[str, Any]) -> str | None:
-    candidates = [
-        payload.get("agent_id"),
-        payload.get("choice"),
-        (payload.get("answer") or {}).get("choice")
-        if isinstance(payload.get("answer"), dict)
-        else None,
-    ]
-    answers = payload.get("answers")
-    if isinstance(answers, dict):
-        route = answers.get("route") or answers.get("agent")
-        if isinstance(route, dict):
-            candidates.extend([route.get("choice"), route.get("agent_id")])
-        elif isinstance(route, str):
-            candidates.append(route)
-    result = payload.get("result")
-    if isinstance(result, dict):
-        candidates.extend([result.get("choice"), result.get("agent_id")])
-    return next((str(value) for value in candidates if value), None)
-
-
-def external_decision(
-    url: str,
-    api_key: str,
-    model: str,
-    query: str,
-    catalog: AgentCatalog,
-) -> str | None:
-    if not url or not api_key:
-        return None
-    options = {
-        agent.agent_id: f"{agent.name}: {agent.description}"
-        for agent in catalog.agents
-    }
-    payload = {
-        "model": model,
-        "state": {"query": query, "agents": options},
-        "questions": {
-            "route": {
-                "type": "choice",
-                "options": options,
-            }
-        },
-    }
-    with httpx.Client(timeout=30.0) as client:
-        response = client.post(
-            url,
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            json=payload,
-        )
-        response.raise_for_status()
-        result = parse_decision_response(response.json())
-    return result if catalog.by_id(result) else None
 
 
 def metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -291,7 +229,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=Path("data/benchmark_report.json"))
     parser.add_argument(
         "--baselines",
-        default="centri,lexical,prompt_all,jev,clef",
+        default="centri,lexical,prompt_all",
         help="Comma-separated baseline names",
     )
     args = parser.parse_args()
@@ -320,10 +258,6 @@ def main() -> None:
         },
         "baselines": {},
         "scale_projection": scale_projection(settings, catalog, index),
-        "external_comparison_notes": {
-            "jev": "Not measured unless CENTRI_JEV_URL and CENTRI_JEV_API_KEY are configured. Public Jev claims are documented separately and are not substituted for measurements.",
-            "cloudflare_clef": "Not measured unless CENTRI_CLEF_URL and CENTRI_CLEF_API_KEY are configured. Clef is a decision model; Cloudflare AI Search/Vectorize are separate retrieval products.",
-        },
     }
 
     if "centri" in requested:
@@ -343,28 +277,6 @@ def main() -> None:
             )
         else:
             report["baselines"]["prompt_all"] = {"name": "prompt_all", "metrics": {"status": "not_measured"}}
-    for name, url, key, model in (
-        ("jev", settings.centri_jev_url, settings.centri_jev_api_key, settings.centri_jev_model),
-        ("clef", settings.centri_clef_url, settings.centri_clef_api_key, settings.centri_clef_model),
-    ):
-        if name in requested:
-            if url and key:
-                report["baselines"][name] = run_baseline(
-                    name,
-                    cases,
-                    lambda query, u=url, k=key, m=model: external_decision(
-                        u, k, m, query, catalog
-                    ),
-                )
-            else:
-                report["baselines"][name] = {
-                    "name": name,
-                    "metrics": {
-                        "status": "not_measured",
-                        "reason": "No authenticated comparison endpoint configured",
-                    },
-                }
-
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report["baselines"], indent=2))

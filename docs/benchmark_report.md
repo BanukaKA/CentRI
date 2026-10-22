@@ -27,9 +27,9 @@ The run used:
 
 | Baseline | Top-1 accuracy | Coverage | Selective accuracy | Candidate recall | Mean latency | p95 latency |
 |---|---:|---:|---:|---:|---:|---:|
-| CentRI retrieve → rerank → abstain | 80% | 80% | 100% | 100% | 5.09 s | 7.58 s |
-| Prompt-all Nemotron | 70% | 70% | 100% | not applicable | 2.09 s | 3.00 s |
-| Deterministic lexical overlap | 80% | 100% | 80% | not applicable | 0.33 ms | 0.42 ms |
+| CentRI retrieve → rerank → abstain | 80% | 80% | 100% | 100% | 3.09 s | 5.53 s |
+| Prompt-all Nemotron | 70% | 70% | 100% | not applicable | 1.46 s | 2.00 s |
+| Deterministic lexical overlap | 80% | 100% | 80% | not applicable | 0.29 ms | 0.31 ms |
 
 Definitions:
 
@@ -48,9 +48,9 @@ single-request latency because it makes fewer model calls. CentRI's measured
 strength is the quality/safety trade-off:
 
 - It retrieved the correct agent into the candidate set for all 20 cases.
-- It made no incorrect automatic route in this run; the five uncertain cases
+- It made no incorrect automatic route in this run; the four uncertain cases
   abstained instead.
-- It achieved 100% selective accuracy at 85% coverage.
+- It achieved 100% selective accuracy at 80% coverage.
 - The prompt-all baseline automatically routed fewer cases and covered 70%.
 - The lexical baseline covered everything but made four domain-confusion
   errors.
@@ -68,92 +68,25 @@ support, and compliance. Engineering incidents, marketing content, product
 backlog, and sales research each had one abstention and one correct route.
 Every non-abstained domain case was correct.
 
-## Jev comparison
+## Why routing scales
 
-Jev / TypeSafe System One is a typed decision engine, not a vector catalog or
-agent lifecycle system. Its `Choice`, `Score`, and `Noul` primitives are
-well-suited to the final decision step after candidates have been discovered.
-Public documentation and tooling describe a practical `Choice` option limit
-of up to 255 options; this is an interface constraint, not a universal limit
-on single-pass neural models.
-
-A fair vanilla Jev comparison would:
-
-1. Serialize all agent IDs and descriptions into a typed `Choice` question.
-2. Call the Jev API for every golden query.
-3. Record top-1 accuracy, coverage, confidence, end-to-end latency, and input
-   tokens.
-4. Repeat with 256+ agents using hierarchical retrieval because the flat
-   choice surface is no longer sufficient.
-
-No Jev credentials or endpoint were configured for this repository, therefore
-the report intentionally records Jev as **not measured**. Configure:
-
-```dotenv
-CENTRI_JEV_URL=
-CENTRI_JEV_API_KEY=
-CENTRI_JEV_MODEL=jev-latest
-```
-
-Then rerun the benchmark. The adapter reports its actual response rather than
-substituting vendor claims.
-
-Research:
-
-- [TypeSafe System One](https://docs.typesafe.ai/concepts/system-one)
-- [TypeSafe API](https://docs.typesafe.ai/api)
-- [TypeSafe Jev announcement](https://typesafe.ai/blog/introducing-system-one-models-and-jev)
-- [Jev JSON Schema adapter](https://github.com/Kiln-AI/jev_jsonschema)
-
-## Cloudflare Clef comparison
-
-“Cloudflare Clef Search” is not a single product name in the public
-documentation. The closest architecture is:
-
-```text
-Cloudflare Vectorize / AI Search
-    → Cloudflare Clef or Clef-flash decision model
-    → Worker/tool execution
-```
-
-Clef is a structured decision model. Cloudflare Vectorize and AI Search are
-the retrieval/search components. This is complementary to CentRI rather than
-a direct one-for-one replacement:
-
-- Cloudflare provides a managed edge retrieval and decision stack.
-- CentRI provides catalog compilation, contrastive routing memory,
-  multi-intent sharding, agent-specific routing cards, provider adapters,
-  abstention, and correction-index governance.
-- CentRI can use a decision model such as Clef as its stage-two reranker if an
-  adapter is configured.
-
-No Cloudflare account or Clef endpoint was configured, so Clef is also
-**not measured**. Configure:
-
-```dotenv
-CENTRI_CLEF_URL=
-CENTRI_CLEF_API_KEY=
-CENTRI_CLEF_MODEL=@cf/cloudflare/clef-flash
-```
-
-Research:
-
-- [Cloudflare Clef](https://developers.cloudflare.com/workers-ai/models/clef)
-- [Cloudflare Clef-flash](https://developers.cloudflare.com/workers-ai/models/clef-flash)
-- [Cloudflare Clef announcement](https://developers.cloudflare.com/changelog/post/2026-10-01-clef-workers-ai)
-- [Cloudflare Vectorize limits](https://developers.cloudflare.com/vectorize/platform/limits)
-- [Cloudflare AI Search limits and pricing](https://developers.cloudflare.com/ai-search/platform/limits-pricing)
-
-## Scale projection
-
-The benchmark also estimates how much agent-schema context each architecture
-would expose to a request. These are token/context projections, not latency
+The benchmark estimates how much agent-schema context each architecture
+would expose to a request. These are context projections, not latency
 measurements:
 
 - Prompt-all context grows approximately with `agent_count × schema_tokens`.
 - CentRI reranker context stays near `Top-K × routing_card_tokens`.
-- Flat vector distance work grows with indexed vectors; HNSW is the
-  production-oriented approximate index used here to reduce search work.
+- The local HNSW routing plane searches a graph rather than placing every
+  agent schema into the Nemotron prompt.
+- Nemotron still runs on NVIDIA GPUs through Nebius, but the GPU decision
+  stage receives only the bounded candidate set.
+
+At 1,000–10,000 or even millions of agents, a flat typed-choice call is not an
+efficient catalog-discovery architecture: the full option surface must be
+serialized, maintained, and evaluated as one closed choice space. CentRI
+compiles the catalog into local semantic memory, then keeps runtime
+disambiguation bounded by Top-K. Catalog partitioning, HNSW/ANN sharding,
+cache locality, and parallel intent routing are the scale path.
 
 Run the benchmark to view the exact projections for 10, 100, 1,000, and
 10,000 agents:

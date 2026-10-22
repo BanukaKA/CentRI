@@ -29,6 +29,12 @@ it compiles agent capability into semantic routing memory offline, retrieves
 high-recall candidates in milliseconds, and uses NVIDIA Nemotron on Nebius only
 to resolve the remaining ambiguity.
 
+The routing memory and candidate search are local to the CentRI control plane;
+Nemotron inference runs on NVIDIA GPU infrastructure through Nebius. This
+separation lets enterprise networks share one organization’s approved agents,
+proprietary data access, and operational resources efficiently with every
+authorized user without placing the entire catalog into every prompt.
+
 ## The problem
 
 The next generation of enterprise software will not expose one chatbot. It
@@ -133,18 +139,25 @@ run showed:
 - CentRI candidate recall: **100%**
 - CentRI coverage: **80%**
 - CentRI selective accuracy: **100%**
-- CentRI mean latency: **5.09 seconds**
-- CentRI p95 latency: **7.58 seconds**
+- CentRI mean latency: **3.09 seconds**
+- CentRI p95 latency: **5.53 seconds**
 - Prompt-all Nemotron accuracy: **70%**
 - Prompt-all Nemotron coverage: **70%**
 - Lexical baseline accuracy: **80%**, with four domain-confusion errors
 
-These numbers are a transparent early benchmark, not a universal claim. Jev
-and Cloudflare Clef are marked not measured until credentials are supplied.
-The submission should present the benchmark as evidence of the routing
-architecture and include a plan to expand the evaluation set. The latest run
-had 100% selective accuracy: every automatic route was correct, while uncertain
-cases abstained.
+These numbers are a transparent early benchmark, not a universal claim. The
+submission should present the benchmark as evidence of the routing architecture
+and include a plan to expand the evaluation set. The latest run had 100%
+selective accuracy: every automatic route was correct, while uncertain cases
+abstained.
+
+At 1,000–10,000 or even millions of agents, a flat typed-choice decision call
+is not an efficient catalog-discovery architecture: the option surface must be
+serialized, maintained, and evaluated as one closed choice space. CentRI
+separates discovery from choice, so the local routing plane can grow the
+catalog while the Nemotron decision stage stays bounded to a small candidate
+set. HNSW/ANN indexing, sharding, and catalog partitioning are the path to
+that scale; the exact p95 curve must be measured on the target deployment.
 
 ## Business impact
 

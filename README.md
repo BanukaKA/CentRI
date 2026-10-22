@@ -162,11 +162,32 @@ routable shards.
 - **Shadow telemetry:** routing observations recorded for evaluation and
 correction without changing the user response.
 
+### Enterprise-scale advantage
+
+At 1,000, 10,000, or even millions of agents, the central challenge is
+catalog discovery. A flat typed-choice call or prompt-all router must keep a
+closed option surface serialized, updated, and evaluated as one decision
+context. That is not an efficient discovery architecture at enterprise
+catalog cardinalities.
+
+CentRI keeps the discovery plane local: compiled routing memory, HNSW
+candidate search, metadata filtering, and agent-ID lookup run in the gateway
+control plane. NVIDIA Nemotron runs on GPU infrastructure through Nebius, but
+it receives only a bounded Top-K routing-card context. This lets one
+enterprise safely share approved agents, proprietary data access, tools, and
+resources with every authorized user while preserving a single, efficient
+route-to-agent contract.
+
+The scale claim is an architecture target supported by the context-reduction
+model and HNSW design. Production deployments still need load tests across
+the target agent counts, shard distribution, GPU concurrency, and tenant
+isolation.
+
 
 
 ## Architecture artifact
 
-Open `[docs/centri-architecture.excalidraw](docs/centri-architecture.excalidraw)` in Excalidraw for the full architecture, scaling model, comparison with prompt-all LLM routing, typed one-pass decision models such as Jev, production boundary, and research sources. Regenerate it with:
+Open `[docs/centri-architecture.excalidraw](docs/centri-architecture.excalidraw)` in Excalidraw for the full architecture, scaling model, comparison with prompt-all LLM routing, production boundary, and research sources. Regenerate it with:
 
 ```bash
 python scripts/generate_architecture_diagram.py
@@ -187,8 +208,11 @@ Hackathon materials:
   narrative, requirements, business case, evidence, and checklist
 - [`docs/hackathon_demo_script.md`](docs/hackathon_demo_script.md) — three-minute
   demo recording script
+- [`docs/hackathon_story.md`](docs/hackathon_story.md) — concise submission
+  answers for inspiration, build, challenges, accomplishments, learning, and
+  next steps
 - [`docs/benchmark_report.md`](docs/benchmark_report.md) — measured routing
-  comparison and Jev/Clef methodology
+  benchmark and scale model
 
 ## Architecture
 
@@ -432,8 +456,7 @@ python -m scripts.benchmark_router --output data/benchmark_report.json
 ```
 
 It measures CentRI against a prompt-all Nemotron router and a deterministic
-lexical baseline. Jev and Cloudflare Clef remain explicitly `not_measured`
-until authenticated comparison endpoints are configured. See
+lexical baseline. See
 [`docs/benchmark_report.md`](docs/benchmark_report.md).
 
 ## Project layout

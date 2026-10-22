@@ -333,7 +333,7 @@ def build_deck() -> Presentation:
     # Right bars.
     shape(slide, MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE, 6.65, 1.78, 5.98, 4.75, WHITE, LINE, True)
     textbox(slide, "DECISION SURFACE AS THE CATALOG GROWS", 6.95, 2.05, 4.9, 0.22, 10, NAVY, True)
-    labels = [("Prompt-all LLM", 2.95, RED), ("Flat classifier", 1.75, AMBER), ("Jev-style choice", 1.35, PURPLE), ("CentRI cascade", 1.05, TEAL)]
+    labels = [("Prompt-all LLM", 2.95, RED), ("Flat classifier", 1.75, AMBER), ("Flat choice surface", 1.35, PURPLE), ("CentRI cascade", 1.05, TEAL)]
     for index, (label, bar, color) in enumerate(labels):
         y = 2.63 + index * 0.75
         textbox(slide, label, 6.98, y, 1.35, 0.2, 11.5, INK, True)
@@ -344,7 +344,7 @@ def build_deck() -> Presentation:
     footer(slide, 6, "FAISS official docs: IndexFlatIP exact; HNSW / IVF trade speed, memory, and recall")
     add_notes(slide, "Do not claim magical O(log N) behavior. The current index is exact Flat search and is linear. The architectural advantage is that the LLM only reasons over K candidates; production must move retrieval to ANN and benchmark it.")
 
-    # Slide 7 — comparison and Jev.
+    # Slide 7 — comparison.
     slide = prs.slides.add_slide(blank)
     set_bg(slide, WHITE)
     title(slide, "Where CentRI fits", "Not an LLM replacement — a routing control plane", "Each primitive is useful; CentRI composes them for an open, changing agent catalog.")
@@ -355,7 +355,7 @@ def build_deck() -> Presentation:
     rows = [
         ("Prompt-all LLM", "Open-ended reasoning", "Catalog prompt grows; ambiguity and token cost grow", "Remove the catalog from the prompt; retrieve candidates first", RED_LIGHT, RED),
         ("Flat classifier", "Fast fixed labels", "New agents require labels, data, retraining", "Compile new agents incrementally from schemas + examples", AMBER_LIGHT, AMBER),
-        ("Jev-style choice", "Typed, parallel bounded decisions", "Choice surface is enumerated; public interface documents ≤255 options", "Use candidate discovery before typed choice when A is large", PURPLE_LIGHT, PURPLE),
+        ("Flat choice surface", "Fast bounded decisions", "Full catalog must be serialized and maintained", "Discover candidates locally before bounded GPU reasoning", PURPLE_LIGHT, PURPLE),
         ("CentRI", "Open-catalog semantic routing", "Current PoC still needs ANN, evaluation, security, real handoff", "One entry point → Top-K retrieval → focused disambiguation", TEAL_LIGHT, TEAL),
     ]
     for index, (approach, best, breaks, response, fill, accent) in enumerate(rows):
@@ -367,8 +367,8 @@ def build_deck() -> Presentation:
         textbox(slide, response, 8.0, y + 0.12, 4.2, 0.38, 11, INK, approach == "CentRI")
     shape(slide, MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE, 0.75, 6.15, 11.8, 0.55, NAVY, NAVY, True)
     textbox(slide, "Key idea: candidate discovery and candidate choice are different problems.", 1.0, 6.32, 11.3, 0.2, 15, WHITE, True, align=PP_ALIGN.CENTER)
-    footer(slide, 7, "Jev architecture reference: jevtypesafeai.com/jev/architecture")
-    add_notes(slide, "Position CentRI as composition, not replacement. Jev-like typed decisions can be an excellent stage-two selector, but a very large catalog still needs candidate discovery.")
+    footer(slide, 7, "Scale principle: local discovery keeps GPU decision context bounded")
+    add_notes(slide, "Position CentRI as a routing control plane. The important distinction is discovery versus choice: the local routing memory discovers candidates, while GPU-backed Nemotron resolves only the small candidate set.")
 
     # Slide 8 — current state and roadmap.
     slide = prs.slides.add_slide(blank)
@@ -403,7 +403,7 @@ def build_deck() -> Presentation:
     sources = [
         "FAISS official indexes + guidelines\nhttps://github.com/facebookresearch/faiss/wiki/Faiss-indexes",
         "Two-stage retrieval / reranking\nhttps://arxiv.org/abs/2212.06121\nhttps://arxiv.org/abs/2205.10569",
-        "Jev public architecture\nhttps://www.jevtypesafeai.com/jev/architecture",
+        "CentRI benchmark report\n docs/benchmark_report.md",
         "Nebius embeddings API\nhttps://docs.tokenfactory.nebius.com/api-reference/examples/create-embeddings",
         "Repository source\nsample_agent_router_dataset.json\ncentri/routing · centri/index · centri/gateway",
     ]
