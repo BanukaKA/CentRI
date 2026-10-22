@@ -238,7 +238,7 @@ def build_deck() -> Presentation:
     shape(slide, MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE, 0.72, 1.78, 5.72, 4.55, BLUE_LIGHT, BLUE, True)
     textbox(slide, "OFFLINE / CHANGE-TIME", 1.0, 2.05, 3.1, 0.25, 11, BLUE, True)
     textbox(slide, "Agent schema\n→ synthetic utterances\n→ embeddings\n→ vector index", 1.0, 2.55, 4.7, 1.55, 25, NAVY, True)
-    bullet_list(slide, ["Nebius LLM expands coverage", "Tavily grounds time-sensitive phrasing", "Contrastive peers create hard negatives", "Artifacts persist as routing memory"], 1.0, 4.45, 4.9, 1.4, 13, INK, BLUE, 0.39)
+    bullet_list(slide, ["Nebius + Nemotron expand coverage", "Tavily grounds time-sensitive phrasing", "Contrastive peers create hard negatives", "Artifacts persist as routing memory"], 1.0, 4.45, 4.9, 1.4, 13, INK, BLUE, 0.39)
     shape(slide, MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE, 6.88, 1.78, 5.72, 4.55, TEAL_LIGHT, TEAL, True)
     textbox(slide, "RUNTIME / REQUEST-TIME", 7.16, 2.05, 3.1, 0.25, 11, TEAL, True)
     textbox(slide, "User query\n→ retrieve candidates\n→ resolve ambiguity\n→ return agent ID", 7.16, 2.55, 4.75, 1.55, 25, NAVY, True)
@@ -285,7 +285,7 @@ def build_deck() -> Presentation:
     textbox(slide, "Catalog source: sample_agent_router_dataset.json", 9.18, 2.12, 2.95, 0.33, 11, INK, True)
     textbox(slide, "Current handoff: StubAgentExecutor", 9.18, 3.67, 2.95, 0.33, 11, RED, True)
     textbox(slide, "Current risk: local mutable index", 9.18, 5.21, 2.95, 0.33, 11, RED, True)
-    footer(slide, 4, "FastAPI · Nebius · Tavily · FAISS · Pydantic · NumPy")
+    footer(slide, 4, "FastAPI · Nebius · NVIDIA Nemotron · Tavily · FAISS · Pydantic · NumPy")
     add_notes(slide, "Walk left-to-right. Compilation creates memory. Routing selects a destination. Learning uses production feedback to improve the routing surface.")
 
     # Slide 5 — request walkthrough.
@@ -374,7 +374,7 @@ def build_deck() -> Presentation:
     slide = prs.slides.add_slide(blank)
     set_bg(slide, NAVY)
     title(slide, "From PoC to platform", "What exists today — and what proves the thesis", "The architecture is in place; the next milestone is evidence plus real handoff.", dark=True)
-    card(slide, 0.72, 1.8, 5.75, 4.55, "BUILT IN THE REPOSITORY", "✓ 10-agent JSON catalog\n✓ Nebius embeddings + chat client\n✓ Optional Tavily synthesis grounding\n✓ Contrastive query-generation design\n✓ FAISS vector index and metadata\n✓ Intent splitting + Top-K retrieval\n✓ Top-3 micro-LLM reranking\n✓ /route, /chat, /catalog, /agents\n✓ Shadow logging + correction path", TEAL_LIGHT, TEAL, 13.5)
+    card(slide, 0.72, 1.8, 5.75, 4.55, "BUILT IN THE REPOSITORY", "✓ 10-agent JSON catalog\n✓ Nebius embeddings + NVIDIA Nemotron\n✓ Optional Tavily synthesis grounding\n✓ Contrastive query-generation design\n✓ FAISS HNSW/Flat index and metadata\n✓ Intent splitting + Top-K retrieval\n✓ Top-3 micro-LLM reranking\n✓ /route, /chat, /catalog, /agents\n✓ Shadow logging + correction path", TEAL_LIGHT, TEAL, 13.5)
     card(slide, 6.86, 1.8, 5.75, 4.55, "NEXT PROOF POINTS", "1  Connect and test real agent endpoints\n2  Expand golden routing data\n3  Calibrate thresholds and abstention\n4  Add distributed ANN/sharding\n5  Add durable workflow state\n6  Add production tracing and metrics\n7  Harden multi-tenant authorization\n8  Measure 10 / 100 / 1k / 10k agents", RED_LIGHT, RED, 13.5)
     shape(slide, MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE, 1.22, 6.62, 10.82, 0.42, BLUE, BLUE, True)
     textbox(slide, "Success metric: routing accuracy and recall at a predictable p95 cost — not merely a clever diagram.", 1.4, 6.72, 10.45, 0.18, 12.5, WHITE, True, align=PP_ALIGN.CENTER)

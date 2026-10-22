@@ -35,7 +35,7 @@ def rerank_agents(
             user=user,
             model=settings.centri_llm_model,
             temperature=0.0,
-            max_tokens=256,
+            max_tokens=512,
         )
         chosen = data.get("agent_id")
         conf = float(data.get("confidence", 0.75))

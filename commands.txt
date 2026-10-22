@@ -4,5 +4,14 @@ python -m scripts.compile
 To Generate Queries with an LLM:
 python -m scripts.compile --synthesize --force-synthesize
 
+Run Catalog Evaluation:
+python -m scripts.evaluate_routing --catalog-only
+
+Run Full Golden-Case Evaluation:
+python -m scripts.evaluate_routing --output data/routing_eval.json
+
+Run Router Comparison Benchmark:
+python -m scripts.benchmark_router --output data/benchmark_report.json
+
 Starting the API:
 python -m centri.gateway.app

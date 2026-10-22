@@ -1,0 +1,1057 @@
+{
+  "metadata": {
+    "dataset": "sample_agent_router_dataset.json",
+    "agents": 10,
+    "cases": 20,
+    "embedding_model": "Qwen/Qwen3-Embedding-8B",
+    "decision_model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "index_type": "hnsw",
+    "measured_at_utc": "2026-10-22T01:38:58Z",
+    "methodology": "Synthetic catalog golden cases; measured values are not production-scale guarantees."
+  },
+  "baselines": {
+    "centri": {
+      "name": "centri",
+      "metrics": {
+        "status": "measured",
+        "cases": 20,
+        "accuracy": 0.8,
+        "abstention_rate": 0.2,
+        "coverage": 0.8,
+        "selective_accuracy": 1,
+        "error_rate": 0,
+        "mean_latency_ms": 5086.26,
+        "p95_latency_ms": 7577.92,
+        "confusion_pairs": {},
+        "candidate_recall_at_k": 1
+      },
+      "by_expected_agent": {
+        "agt_compliance_evidence_reviewer": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 4511.02,
+          "p95_latency_ms": 4999.29,
+          "confusion_pairs": {}
+        },
+        "agt_contract_review_counsel": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 6087.68,
+          "p95_latency_ms": 6110.01,
+          "confusion_pairs": {}
+        },
+        "agt_customer_support_resolution": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 3516.52,
+          "p95_latency_ms": 3571.4,
+          "confusion_pairs": {}
+        },
+        "agt_engineering_incident_commander": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 5448.43,
+          "p95_latency_ms": 7265.53,
+          "confusion_pairs": {}
+        },
+        "agt_finance_ap_invoice_auditor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 5966.99,
+          "p95_latency_ms": 7577.92,
+          "confusion_pairs": {}
+        },
+        "agt_hr_policy_advisor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 3226.53,
+          "p95_latency_ms": 3265.15,
+          "confusion_pairs": {}
+        },
+        "agt_it_service_desk_triage": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 5948.78,
+          "p95_latency_ms": 7657.5,
+          "confusion_pairs": {}
+        },
+        "agt_marketing_content_editor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 4941.53,
+          "p95_latency_ms": 6787.65,
+          "confusion_pairs": {}
+        },
+        "agt_product_backlog_analyst": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 5537.69,
+          "p95_latency_ms": 5797.14,
+          "confusion_pairs": {}
+        },
+        "agt_sales_account_researcher": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 5677.4,
+          "p95_latency_ms": 6860.72,
+          "confusion_pairs": {}
+        }
+      },
+      "cases": [
+        {
+          "case_id": "it_001",
+          "expected_agent_id": "agt_it_service_desk_triage",
+          "predicted_agent_id": "agt_it_service_desk_triage",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 4240.06
+        },
+        {
+          "case_id": "it_002",
+          "expected_agent_id": "agt_it_service_desk_triage",
+          "predicted_agent_id": "agt_it_service_desk_triage",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 7657.5
+        },
+        {
+          "case_id": "ap_001",
+          "expected_agent_id": "agt_finance_ap_invoice_auditor",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 4356.07
+        },
+        {
+          "case_id": "ap_002",
+          "expected_agent_id": "agt_finance_ap_invoice_auditor",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 7577.92
+        },
+        {
+          "case_id": "hr_001",
+          "expected_agent_id": "agt_hr_policy_advisor",
+          "predicted_agent_id": "agt_hr_policy_advisor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 3265.15
+        },
+        {
+          "case_id": "hr_002",
+          "expected_agent_id": "agt_hr_policy_advisor",
+          "predicted_agent_id": "agt_hr_policy_advisor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 3187.91
+        },
+        {
+          "case_id": "legal_001",
+          "expected_agent_id": "agt_contract_review_counsel",
+          "predicted_agent_id": "agt_contract_review_counsel",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 6065.36
+        },
+        {
+          "case_id": "legal_002",
+          "expected_agent_id": "agt_contract_review_counsel",
+          "predicted_agent_id": "agt_contract_review_counsel",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 6110.01
+        },
+        {
+          "case_id": "sales_001",
+          "expected_agent_id": "agt_sales_account_researcher",
+          "predicted_agent_id": "agt_sales_account_researcher",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 6860.72
+        },
+        {
+          "case_id": "sales_002",
+          "expected_agent_id": "agt_sales_account_researcher",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 4494.07
+        },
+        {
+          "case_id": "cx_001",
+          "expected_agent_id": "agt_customer_support_resolution",
+          "predicted_agent_id": "agt_customer_support_resolution",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 3461.64
+        },
+        {
+          "case_id": "cx_002",
+          "expected_agent_id": "agt_customer_support_resolution",
+          "predicted_agent_id": "agt_customer_support_resolution",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 3571.4
+        },
+        {
+          "case_id": "sre_001",
+          "expected_agent_id": "agt_engineering_incident_commander",
+          "predicted_agent_id": "agt_engineering_incident_commander",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 3631.34
+        },
+        {
+          "case_id": "sre_002",
+          "expected_agent_id": "agt_engineering_incident_commander",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 7265.53
+        },
+        {
+          "case_id": "product_001",
+          "expected_agent_id": "agt_product_backlog_analyst",
+          "predicted_agent_id": "agt_product_backlog_analyst",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 5797.14
+        },
+        {
+          "case_id": "product_002",
+          "expected_agent_id": "agt_product_backlog_analyst",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 5278.25
+        },
+        {
+          "case_id": "grc_001",
+          "expected_agent_id": "agt_compliance_evidence_reviewer",
+          "predicted_agent_id": "agt_compliance_evidence_reviewer",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 4999.29
+        },
+        {
+          "case_id": "grc_002",
+          "expected_agent_id": "agt_compliance_evidence_reviewer",
+          "predicted_agent_id": "agt_compliance_evidence_reviewer",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 4022.75
+        },
+        {
+          "case_id": "content_001",
+          "expected_agent_id": "agt_marketing_content_editor",
+          "predicted_agent_id": "agt_marketing_content_editor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 6787.65
+        },
+        {
+          "case_id": "content_002",
+          "expected_agent_id": "agt_marketing_content_editor",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "recall_at_k": true,
+          "latency_ms": 3095.42
+        }
+      ]
+    },
+    "lexical": {
+      "name": "lexical",
+      "metrics": {
+        "status": "measured",
+        "cases": 20,
+        "accuracy": 0.8,
+        "abstention_rate": 0,
+        "coverage": 1,
+        "selective_accuracy": 0.8,
+        "error_rate": 0,
+        "mean_latency_ms": 0.33,
+        "p95_latency_ms": 0.42,
+        "confusion_pairs": {
+          "agt_hr_policy_advisor -> agt_it_service_desk_triage": 1,
+          "agt_customer_support_resolution -> agt_finance_ap_invoice_auditor": 1,
+          "agt_engineering_incident_commander -> agt_marketing_content_editor": 1,
+          "agt_product_backlog_analyst -> agt_hr_policy_advisor": 1
+        }
+      },
+      "by_expected_agent": {
+        "agt_compliance_evidence_reviewer": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 0.29,
+          "p95_latency_ms": 0.3,
+          "confusion_pairs": {}
+        },
+        "agt_contract_review_counsel": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 0.33,
+          "p95_latency_ms": 0.35,
+          "confusion_pairs": {}
+        },
+        "agt_customer_support_resolution": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 0.5,
+          "error_rate": 0,
+          "mean_latency_ms": 0.36,
+          "p95_latency_ms": 0.41,
+          "confusion_pairs": {
+            "agt_customer_support_resolution -> agt_finance_ap_invoice_auditor": 1
+          }
+        },
+        "agt_engineering_incident_commander": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 0.5,
+          "error_rate": 0,
+          "mean_latency_ms": 0.3,
+          "p95_latency_ms": 0.3,
+          "confusion_pairs": {
+            "agt_engineering_incident_commander -> agt_marketing_content_editor": 1
+          }
+        },
+        "agt_finance_ap_invoice_auditor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 0.41,
+          "p95_latency_ms": 0.42,
+          "confusion_pairs": {}
+        },
+        "agt_hr_policy_advisor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 0.5,
+          "error_rate": 0,
+          "mean_latency_ms": 0.36,
+          "p95_latency_ms": 0.38,
+          "confusion_pairs": {
+            "agt_hr_policy_advisor -> agt_it_service_desk_triage": 1
+          }
+        },
+        "agt_it_service_desk_triage": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 0.39,
+          "p95_latency_ms": 0.48,
+          "confusion_pairs": {}
+        },
+        "agt_marketing_content_editor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 0.29,
+          "p95_latency_ms": 0.29,
+          "confusion_pairs": {}
+        },
+        "agt_product_backlog_analyst": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 0.5,
+          "error_rate": 0,
+          "mean_latency_ms": 0.28,
+          "p95_latency_ms": 0.28,
+          "confusion_pairs": {
+            "agt_product_backlog_analyst -> agt_hr_policy_advisor": 1
+          }
+        },
+        "agt_sales_account_researcher": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 0.32,
+          "p95_latency_ms": 0.35,
+          "confusion_pairs": {}
+        }
+      },
+      "cases": [
+        {
+          "case_id": "it_001",
+          "expected_agent_id": "agt_it_service_desk_triage",
+          "predicted_agent_id": "agt_it_service_desk_triage",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.48
+        },
+        {
+          "case_id": "it_002",
+          "expected_agent_id": "agt_it_service_desk_triage",
+          "predicted_agent_id": "agt_it_service_desk_triage",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.3
+        },
+        {
+          "case_id": "ap_001",
+          "expected_agent_id": "agt_finance_ap_invoice_auditor",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.42
+        },
+        {
+          "case_id": "ap_002",
+          "expected_agent_id": "agt_finance_ap_invoice_auditor",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.4
+        },
+        {
+          "case_id": "hr_001",
+          "expected_agent_id": "agt_hr_policy_advisor",
+          "predicted_agent_id": "agt_hr_policy_advisor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.38
+        },
+        {
+          "case_id": "hr_002",
+          "expected_agent_id": "agt_hr_policy_advisor",
+          "predicted_agent_id": "agt_it_service_desk_triage",
+          "correct": false,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.35
+        },
+        {
+          "case_id": "legal_001",
+          "expected_agent_id": "agt_contract_review_counsel",
+          "predicted_agent_id": "agt_contract_review_counsel",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.35
+        },
+        {
+          "case_id": "legal_002",
+          "expected_agent_id": "agt_contract_review_counsel",
+          "predicted_agent_id": "agt_contract_review_counsel",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.31
+        },
+        {
+          "case_id": "sales_001",
+          "expected_agent_id": "agt_sales_account_researcher",
+          "predicted_agent_id": "agt_sales_account_researcher",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.29
+        },
+        {
+          "case_id": "sales_002",
+          "expected_agent_id": "agt_sales_account_researcher",
+          "predicted_agent_id": "agt_sales_account_researcher",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.35
+        },
+        {
+          "case_id": "cx_001",
+          "expected_agent_id": "agt_customer_support_resolution",
+          "predicted_agent_id": "agt_customer_support_resolution",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.41
+        },
+        {
+          "case_id": "cx_002",
+          "expected_agent_id": "agt_customer_support_resolution",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": false,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.31
+        },
+        {
+          "case_id": "sre_001",
+          "expected_agent_id": "agt_engineering_incident_commander",
+          "predicted_agent_id": "agt_engineering_incident_commander",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.3
+        },
+        {
+          "case_id": "sre_002",
+          "expected_agent_id": "agt_engineering_incident_commander",
+          "predicted_agent_id": "agt_marketing_content_editor",
+          "correct": false,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.3
+        },
+        {
+          "case_id": "product_001",
+          "expected_agent_id": "agt_product_backlog_analyst",
+          "predicted_agent_id": "agt_product_backlog_analyst",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.28
+        },
+        {
+          "case_id": "product_002",
+          "expected_agent_id": "agt_product_backlog_analyst",
+          "predicted_agent_id": "agt_hr_policy_advisor",
+          "correct": false,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.28
+        },
+        {
+          "case_id": "grc_001",
+          "expected_agent_id": "agt_compliance_evidence_reviewer",
+          "predicted_agent_id": "agt_compliance_evidence_reviewer",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.29
+        },
+        {
+          "case_id": "grc_002",
+          "expected_agent_id": "agt_compliance_evidence_reviewer",
+          "predicted_agent_id": "agt_compliance_evidence_reviewer",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.3
+        },
+        {
+          "case_id": "content_001",
+          "expected_agent_id": "agt_marketing_content_editor",
+          "predicted_agent_id": "agt_marketing_content_editor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.29
+        },
+        {
+          "case_id": "content_002",
+          "expected_agent_id": "agt_marketing_content_editor",
+          "predicted_agent_id": "agt_marketing_content_editor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 0.29
+        }
+      ]
+    },
+    "prompt_all": {
+      "name": "prompt_all",
+      "metrics": {
+        "status": "measured",
+        "cases": 20,
+        "accuracy": 0.7,
+        "abstention_rate": 0.3,
+        "coverage": 0.7,
+        "selective_accuracy": 1,
+        "error_rate": 0,
+        "mean_latency_ms": 2089.53,
+        "p95_latency_ms": 2998.14,
+        "confusion_pairs": {}
+      },
+      "by_expected_agent": {
+        "agt_compliance_evidence_reviewer": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0,
+          "abstention_rate": 1,
+          "coverage": 0,
+          "selective_accuracy": 0.0,
+          "error_rate": 0,
+          "mean_latency_ms": 3141.61,
+          "p95_latency_ms": 3288.4,
+          "confusion_pairs": {}
+        },
+        "agt_contract_review_counsel": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 1604.83,
+          "p95_latency_ms": 1772.66,
+          "confusion_pairs": {}
+        },
+        "agt_customer_support_resolution": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 1895.27,
+          "p95_latency_ms": 2355.0,
+          "confusion_pairs": {}
+        },
+        "agt_engineering_incident_commander": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 2418.01,
+          "p95_latency_ms": 2785.41,
+          "confusion_pairs": {}
+        },
+        "agt_finance_ap_invoice_auditor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 1491.01,
+          "p95_latency_ms": 1680.75,
+          "confusion_pairs": {}
+        },
+        "agt_hr_policy_advisor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 1755.64,
+          "p95_latency_ms": 1942.19,
+          "confusion_pairs": {}
+        },
+        "agt_it_service_desk_triage": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 2015.84,
+          "p95_latency_ms": 2518.98,
+          "confusion_pairs": {}
+        },
+        "agt_marketing_content_editor": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 1,
+          "abstention_rate": 0,
+          "coverage": 1,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 1473.12,
+          "p95_latency_ms": 1744.46,
+          "confusion_pairs": {}
+        },
+        "agt_product_backlog_analyst": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 2644.07,
+          "p95_latency_ms": 2998.14,
+          "confusion_pairs": {}
+        },
+        "agt_sales_account_researcher": {
+          "status": "measured",
+          "cases": 2,
+          "accuracy": 0.5,
+          "abstention_rate": 0.5,
+          "coverage": 0.5,
+          "selective_accuracy": 1,
+          "error_rate": 0,
+          "mean_latency_ms": 2455.85,
+          "p95_latency_ms": 2866.09,
+          "confusion_pairs": {}
+        }
+      },
+      "cases": [
+        {
+          "case_id": "it_001",
+          "expected_agent_id": "agt_it_service_desk_triage",
+          "predicted_agent_id": "agt_it_service_desk_triage",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1512.7
+        },
+        {
+          "case_id": "it_002",
+          "expected_agent_id": "agt_it_service_desk_triage",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "latency_ms": 2518.98
+        },
+        {
+          "case_id": "ap_001",
+          "expected_agent_id": "agt_finance_ap_invoice_auditor",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1301.28
+        },
+        {
+          "case_id": "ap_002",
+          "expected_agent_id": "agt_finance_ap_invoice_auditor",
+          "predicted_agent_id": "agt_finance_ap_invoice_auditor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1680.75
+        },
+        {
+          "case_id": "hr_001",
+          "expected_agent_id": "agt_hr_policy_advisor",
+          "predicted_agent_id": "agt_hr_policy_advisor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1569.1
+        },
+        {
+          "case_id": "hr_002",
+          "expected_agent_id": "agt_hr_policy_advisor",
+          "predicted_agent_id": "agt_hr_policy_advisor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1942.19
+        },
+        {
+          "case_id": "legal_001",
+          "expected_agent_id": "agt_contract_review_counsel",
+          "predicted_agent_id": "agt_contract_review_counsel",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1772.66
+        },
+        {
+          "case_id": "legal_002",
+          "expected_agent_id": "agt_contract_review_counsel",
+          "predicted_agent_id": "agt_contract_review_counsel",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1437.0
+        },
+        {
+          "case_id": "sales_001",
+          "expected_agent_id": "agt_sales_account_researcher",
+          "predicted_agent_id": "agt_sales_account_researcher",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 2045.61
+        },
+        {
+          "case_id": "sales_002",
+          "expected_agent_id": "agt_sales_account_researcher",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "latency_ms": 2866.09
+        },
+        {
+          "case_id": "cx_001",
+          "expected_agent_id": "agt_customer_support_resolution",
+          "predicted_agent_id": "agt_customer_support_resolution",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1435.54
+        },
+        {
+          "case_id": "cx_002",
+          "expected_agent_id": "agt_customer_support_resolution",
+          "predicted_agent_id": "agt_customer_support_resolution",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 2355.0
+        },
+        {
+          "case_id": "sre_001",
+          "expected_agent_id": "agt_engineering_incident_commander",
+          "predicted_agent_id": "agt_engineering_incident_commander",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 2050.61
+        },
+        {
+          "case_id": "sre_002",
+          "expected_agent_id": "agt_engineering_incident_commander",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "latency_ms": 2785.41
+        },
+        {
+          "case_id": "product_001",
+          "expected_agent_id": "agt_product_backlog_analyst",
+          "predicted_agent_id": "agt_product_backlog_analyst",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 2290.0
+        },
+        {
+          "case_id": "product_002",
+          "expected_agent_id": "agt_product_backlog_analyst",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "latency_ms": 2998.14
+        },
+        {
+          "case_id": "grc_001",
+          "expected_agent_id": "agt_compliance_evidence_reviewer",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "latency_ms": 3288.4
+        },
+        {
+          "case_id": "grc_002",
+          "expected_agent_id": "agt_compliance_evidence_reviewer",
+          "predicted_agent_id": null,
+          "correct": false,
+          "abstained": true,
+          "error": false,
+          "latency_ms": 2994.83
+        },
+        {
+          "case_id": "content_001",
+          "expected_agent_id": "agt_marketing_content_editor",
+          "predicted_agent_id": "agt_marketing_content_editor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1201.77
+        },
+        {
+          "case_id": "content_002",
+          "expected_agent_id": "agt_marketing_content_editor",
+          "predicted_agent_id": "agt_marketing_content_editor",
+          "correct": true,
+          "abstained": false,
+          "error": false,
+          "latency_ms": 1744.46
+        }
+      ]
+    },
+    "jev": {
+      "name": "jev",
+      "metrics": {
+        "status": "not_measured",
+        "reason": "No authenticated comparison endpoint configured"
+      }
+    },
+    "clef": {
+      "name": "clef",
+      "metrics": {
+        "status": "not_measured",
+        "reason": "No authenticated comparison endpoint configured"
+      }
+    }
+  },
+  "scale_projection": [
+    {
+      "agent_count": 10,
+      "prompt_all_catalog_tokens_estimate": 2653,
+      "centri_rerank_tokens_estimate": 796,
+      "catalog_context_reduction_factor": 3.33,
+      "flat_distance_terms_per_query": 2048000,
+      "interpretation": "projection, not a measured latency"
+    },
+    {
+      "agent_count": 100,
+      "prompt_all_catalog_tokens_estimate": 26530,
+      "centri_rerank_tokens_estimate": 796,
+      "catalog_context_reduction_factor": 33.33,
+      "flat_distance_terms_per_query": 20480000,
+      "interpretation": "projection, not a measured latency"
+    },
+    {
+      "agent_count": 1000,
+      "prompt_all_catalog_tokens_estimate": 265300,
+      "centri_rerank_tokens_estimate": 796,
+      "catalog_context_reduction_factor": 333.29,
+      "flat_distance_terms_per_query": 204800000,
+      "interpretation": "projection, not a measured latency"
+    },
+    {
+      "agent_count": 10000,
+      "prompt_all_catalog_tokens_estimate": 2653000,
+      "centri_rerank_tokens_estimate": 796,
+      "catalog_context_reduction_factor": 3332.91,
+      "flat_distance_terms_per_query": 2048000000,
+      "interpretation": "projection, not a measured latency"
+    }
+  ],
+  "external_comparison_notes": {
+    "jev": "Not measured unless CENTRI_JEV_URL and CENTRI_JEV_API_KEY are configured. Public Jev claims are documented separately and are not substituted for measurements.",
+    "cloudflare_clef": "Not measured unless CENTRI_CLEF_URL and CENTRI_CLEF_API_KEY are configured. Clef is a decision model; Cloudflare AI Search/Vectorize are separate retrieval products."
+  }
+}

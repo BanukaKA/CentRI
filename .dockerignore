@@ -1,0 +1,11 @@
+.env
+.venv
+.git
+.gitignore
+__pycache__
+*.py[cod]
+tests
+docs
+CentRI_5_minute_presentation.pptx
+data/shadow_logs
+data/corrections

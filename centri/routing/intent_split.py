@@ -9,8 +9,10 @@ def split_intents(prompt: str, nebius: NebiusClient | None, settings: Settings) 
     Multi-intent sharding: return one or more atomic user intents.
     Uses a lightweight LLM when available; otherwise heuristics.
     """
+    if not _looks_compound(prompt):
+        return [prompt]
     if nebius is None or not settings.nebius_api_key:
-        return _heuristic_split(prompt)
+        return _heuristic_split(prompt, settings.centri_max_intent_shards)
 
     system = (
         "Detect compound user requests. Output JSON: "
@@ -47,3 +49,11 @@ def _heuristic_split(prompt: str, max_shards: int = 3) -> list[str]:
             if len(parts) >= 2:
                 return parts[:max_shards]
     return [prompt]
+
+
+def _looks_compound(prompt: str) -> bool:
+    lowered = prompt.lower()
+    return any(
+        marker in lowered
+        for marker in (" and also ", " and then ", "; ", " — ", " plus ", " - ")
+    )

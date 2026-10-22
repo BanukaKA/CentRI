@@ -4,6 +4,10 @@
 
 Built for [Nebius Token Factory](https://docs.tokenfactory.nebius.com/) (OpenAI-compatible embeddings + chat) and optional [Tavily](https://tavily.com/) grounding for time-sensitive synthetic query generation.
 
+The hackathon configuration uses NVIDIA Nemotron Nano/Super through Nebius
+Token Factory for runtime decisions and synthesis, satisfying the NVIDIA model
+requirement while keeping embeddings and downstream agent runtimes modular.
+
 ## What CentRI solves
 
 Large organizations increasingly expose many specialized agents: IT support,
@@ -35,17 +39,17 @@ CentRI's core innovation is **compiled semantic routing memory plus bounded
 runtime disambiguation**:
 
 1. **Compile at change time.** Agent schemas are expanded into diverse
-   synthetic user utterances, including contrastive examples against adjacent
+  synthetic user utterances, including contrastive examples against adjacent
    agents. The utterances are embedded once and stored as searchable routing
    memory.
 2. **Retrieve at request time.** The user query is embedded and FAISS retrieves
-   a small high-recall candidate set rather than sending the entire catalog to
+  a small high-recall candidate set rather than sending the entire catalog to
    a generative model.
 3. **Reason only over ambiguity.** A micro-LLM sees the query and only the
-   Top-K candidate routing cards. It resolves collisions such as payroll vs.
+  Top-K candidate routing cards. It resolves collisions such as payroll vs.
    HR policy or employee support vs. engineering incidents.
 4. **Learn from routing outcomes.** Redacted shadow telemetry and reviewed
-   corrections add evidence to the routing surface without retraining the
+  corrections add evidence to the routing surface without retraining the
    whole agent system.
 
 This is not a claim that vector search is automatically more accurate than
@@ -55,6 +59,8 @@ that the request-time reasoning surface is bounded by `K`, while the catalog
 can grow independently.
 
 ## Full technical span
+
+
 
 ### Offline compilation plane
 
@@ -137,47 +143,62 @@ non-health endpoints when enabled; feedback requires `admin` or `operator`.
 ### Core terminology
 
 - **Embedding:** numerical vector representation of text used for semantic
-  similarity.
+similarity.
 - **Dense retrieval:** nearest-neighbor search over learned vectors.
 - **ANN:** approximate nearest-neighbor search; faster at scale with a recall
-  trade-off.
+trade-off.
 - **HNSW:** graph-based ANN index used as the default production-oriented
-  index.
+index.
 - **Flat / IndexFlatIP:** exact exhaustive inner-product search used as the
-  evaluation baseline.
+evaluation baseline.
 - **Retrieve-and-rerank:** high-recall candidate retrieval followed by a
-  higher-precision model over a small candidate set.
+higher-precision model over a small candidate set.
 - **Routing card:** compact agent schema shown to the reranker instead of the
-  agent's complete system prompt.
+agent's complete system prompt.
 - **Abstention:** refusing to guess when similarity, candidate margin, or
-  reranker confidence is below policy.
+reranker confidence is below policy.
 - **Compound intent:** one user request split into multiple independently
-  routable shards.
+routable shards.
 - **Shadow telemetry:** routing observations recorded for evaluation and
-  correction without changing the user response.
+correction without changing the user response.
+
+
 
 ## Architecture artifact
 
-Open [`docs/centri-architecture.excalidraw`](docs/centri-architecture.excalidraw) in Excalidraw for the full architecture, scaling model, comparison with prompt-all LLM routing, typed one-pass decision models such as Jev, production boundary, and research sources. Regenerate it with:
+Open `[docs/centri-architecture.excalidraw](docs/centri-architecture.excalidraw)` in Excalidraw for the full architecture, scaling model, comparison with prompt-all LLM routing, typed one-pass decision models such as Jev, production boundary, and research sources. Regenerate it with:
 
 ```bash
 python scripts/generate_architecture_diagram.py
 ```
 
 The five-minute technical presentation is available at
-[`CentRI_5_minute_presentation.pptx`](CentRI_5_minute_presentation.pptx). Regenerate it with:
+`[CentRI_5_minute_presentation.pptx](CentRI_5_minute_presentation.pptx)`. Regenerate it with:
 
 ```bash
 python scripts/generate_presentation.py
 ```
 
+
+
+Hackathon materials:
+
+- [`docs/hackathon_submission.md`](docs/hackathon_submission.md) — submission
+  narrative, requirements, business case, evidence, and checklist
+- [`docs/hackathon_demo_script.md`](docs/hackathon_demo_script.md) — three-minute
+  demo recording script
+- [`docs/benchmark_report.md`](docs/benchmark_report.md) — measured routing
+  comparison and Jev/Clef methodology
+
 ## Architecture
 
-| Phase | What runs | Output |
-|--------|-----------|--------|
-| **Compile** (on catalog change) | Seed + contrastive synthetic queries, Nebius embeddings | `data/compiled/faiss.index` + `vectors.jsonl` |
-| **Gateway** (per request) | Intent split → embed → Top-K vector vote → LLM re-rank → agent handoff | `/chat` JSON |
-| **Learn** (continuous) | Shadow logs + `/feedback/routing` + `scripts/correct_routing.py` | New vectors in index |
+
+| Phase                           | What runs                                                              | Output                                        |
+| ------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------- |
+| **Compile** (on catalog change) | Seed + contrastive synthetic queries, Nebius embeddings                | `data/compiled/faiss.index` + `vectors.jsonl` |
+| **Gateway** (per request)       | Intent split → embed → Top-K vector vote → LLM re-rank → agent handoff | `/chat` JSON                                  |
+| **Learn** (continuous)          | Shadow logs + `/feedback/routing` + `scripts/correct_routing.py`       | New vectors in index                          |
+
 
 Agent catalog: `sample_agent_router_dataset.json` (10 Northstar enterprise agents).
 
@@ -247,6 +268,8 @@ Full golden-case evaluation uses Nebius and the compiled index:
 python -m scripts.evaluate_routing --output data/routing_eval.json
 ```
 
+
+
 ### 5. Start the gateway
 
 ```powershell
@@ -255,6 +278,17 @@ python -m centri.gateway.app
 
 The service listens on `http://localhost:8080`. Interactive API documentation
 is available at `http://localhost:8080/docs`.
+
+For a containerized demo:
+
+```powershell
+docker build -t centri .
+docker run --rm -p 8080:8080 --env-file .env centri
+```
+
+The container compiles the routing index on first start when no compiled index
+is mounted. For a hosted demo, precompile during the deployment job or mount
+`data/compiled/` as a persistent artifact.
 
 ### 6. Smoke-test the running system
 
@@ -283,7 +317,7 @@ Invoke-RestMethod -Uri http://localhost:8080/chat `
   -Method Post -ContentType "application/json" -Body $body
 ```
 
-All Postman-ready cURL examples are in [`postman_test.txt`](postman_test.txt).
+All Postman-ready cURL examples are in `[postman_test.txt](postman_test.txt)`.
 
 Compound requests may return multiple `results[]` entries and a synthesized
 response:
@@ -294,28 +328,34 @@ Invoke-RestMethod -Uri http://localhost:8080/route `
   -Method Post -ContentType "application/json" -Body $body
 ```
 
+
+
 ## Configuration
 
 See `.env.example`. Key settings:
 
 - `CENTRI_EMBEDDING_MODEL` — default `Qwen/Qwen3-Embedding-8B` ([Nebius embeddings](https://docs.tokenfactory.nebius.com/api-reference/examples/create-embeddings))
-- `CENTRI_LLM_MODEL` — stage-2 re-rank + intent splitter (small, low latency)
-- `CENTRI_LLM_MODEL_SYNTHESIS` — offline query generation + nightly correction
+- `CENTRI_LLM_MODEL` — NVIDIA Nemotron Nano for stage-2 reranking + intent splitting
+- `CENTRI_LLM_MODEL_SYNTHESIS` — NVIDIA Nemotron Super for offline generation + synthesis
 - `CENTRI_INDEX_TYPE` — `hnsw` for scalable approximate search or `flat` for the exact baseline
 - `CENTRI_ROUTE_MIN_SIMILARITY` / `CENTRI_ROUTE_MIN_MARGIN` — abstention controls
 - `CENTRI_RUNTIME_TIMEOUT_SECONDS` — HTTP agent handoff timeout
 - `CENTRI_REDACT_TELEMETRY` / `CENTRI_LOG_RETENTION_DAYS` — safe shadow-log controls
 
+
+
 ## API
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/health` | Liveness |
-| `GET` | `/catalog` | All agents: `agent_id`, `name`, optional `display_name`, `description` |
-| `GET` | `/agents` | Same catalog fields plus `domain` |
-| `POST` | `/route` | Route a `query` → `agent_id` and `agent_name` (no agent execution) |
-| `POST` | `/chat` | Route + concurrent agent execution + compound synthesis |
-| `POST` | `/feedback/routing` | Log refusal or append correction vector |
+
+| Method | Path                | Description                                                            |
+| ------ | ------------------- | ---------------------------------------------------------------------- |
+| `GET`  | `/health`           | Liveness                                                               |
+| `GET`  | `/catalog`          | All agents: `agent_id`, `name`, optional `display_name`, `description` |
+| `GET`  | `/agents`           | Same catalog fields plus `domain`                                      |
+| `POST` | `/route`            | Route a `query` → `agent_id` and `agent_name` (no agent execution)     |
+| `POST` | `/chat`             | Route + concurrent agent execution + compound synthesis                |
+| `POST` | `/feedback/routing` | Log refusal or append correction vector                                |
+
 
 `/route` and `/chat` can abstain when similarity, candidate margin, or reranker
 confidence is below policy thresholds. `/chat` accepts `approval_granted` for
@@ -366,6 +406,8 @@ External or deployment-specific:
 - durable workflow state, tracing backend, and metrics backend
 - business-specific authorization and data-residency policy
 
+
+
 ## Evaluation
 
 Validate the catalog without external services:
@@ -383,6 +425,17 @@ python -m scripts.evaluate_routing --output data/routing_eval.json
 The report includes top-1 accuracy, candidate recall, abstention rate,
 confusion pairs, mean latency, and p95 latency.
 
+Run the comparison benchmark:
+
+```powershell
+python -m scripts.benchmark_router --output data/benchmark_report.json
+```
+
+It measures CentRI against a prompt-all Nemotron router and a deterministic
+lexical baseline. Jev and Cloudflare Clef remain explicitly `not_measured`
+until authenticated comparison endpoints are configured. See
+[`docs/benchmark_report.md`](docs/benchmark_report.md).
+
 ## Project layout
 
 ```
@@ -399,11 +452,15 @@ scripts/
   correct_routing.py
 ```
 
+
+
 ## Tests
 
 ```bash
 pytest
 ```
+
+
 
 ## License
 

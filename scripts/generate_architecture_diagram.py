@@ -267,7 +267,7 @@ def build() -> dict[str, Any]:
     d.text(1920, 490, "One-time / amortized", 15, GREEN, width=300, bold=True)
     d.text(1920, 520, "• LLM query generation\n• embedding all examples\n• index build + validation", 14, INK, width=320)
     d.text(1920, 605, "Design principle", 15, NAVY, bold=True)
-    d.text(1920, 640, "Agent descriptions become\naddressable memory, not\nrepeated prompt context.", 14, PURPLE, width=320, bold=True)
+    d.text(1920, 640, "Agent descriptions become\naddressable memory, not\nrepeated prompt context.\nNemotron resolves only Top-K.", 14, PURPLE, width=320, bold=True)
 
     # Section 2: runtime.
     d.text(90, 780, "02  RUNTIME GATEWAY  /  one entry point for thousands of agents", 22, NAVY, bold=True)
