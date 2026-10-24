@@ -115,8 +115,9 @@ async def request_context(request: Request, call_next):
 
 
 @app.get("/health")
-def health() -> dict[str, Any]:
+def health(request: Request) -> dict[str, Any]:
     st: AppState | None = getattr(app.state, "centri", None)
+    base_url = f"{request.url.scheme}://{request.headers.get('host', 'localhost:8080')}"
     return {
         "status": "ok",
         "service": "centri",
@@ -125,6 +126,27 @@ def health() -> dict[str, Any]:
             "type": st.index.index_type if st else None,
             "vectors": len(st.index.records) if st else 0,
             "version": st.index.version if st else 0,
+        },
+        "test_curls": {
+            "health": f'curl --location "{base_url}/health"',
+            "catalog": f'curl --location "{base_url}/catalog"',
+            "route": (
+                f'curl --location "{base_url}/route" '
+                '--header "Content-Type: application/json" '
+                '--data "{\\"query\\":\\"My VPN stopped after a password change.\\"}"'
+            ),
+            "chat": (
+                f'curl --location "{base_url}/chat" '
+                '--header "Content-Type: application/json" '
+                '--data "{\\"prompt\\":\\"My VPN stopped after a password change.\\",'
+                '\\"approval_granted\\":true}"'
+            ),
+            "chat_with_tavily": (
+                f'curl --location "{base_url}/chat" '
+                '--header "Content-Type: application/json" '
+                '--data "{\\"prompt\\":\\"What are the latest enterprise security updates?\\",'
+                '\\"use_web_search\\":true,\\"approval_granted\\":true}"'
+            ),
         },
     }
 
