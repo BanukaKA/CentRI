@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: centri-demo
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: NEBIUS_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: CENTRI_AUTH_REQUIRED
+        value: "false"
+      - key: CENTRI_MOCK_EXECUTION
+        value: "true"
+      - key: CENTRI_INDEX_TYPE
+        value: hnsw
+      - key: CENTRI_EMBEDDING_MODEL
+        value: Qwen/Qwen3-Embedding-8B
+      - key: CENTRI_LLM_MODEL
+        value: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B
+      - key: CENTRI_LLM_MODEL_SYNTHESIS
+        value: nvidia/nemotron-3-super-120b-a12b
+      - key: CENTRI_REDACT_TELEMETRY
+        value: "true"

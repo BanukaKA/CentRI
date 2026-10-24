@@ -48,6 +48,7 @@ class AgentExecutor:
         user_prompt: str,
         history: list[dict[str, str]] | None = None,
         approval_granted: bool = False,
+        web_context: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         agent = self.catalog.by_id(decision.agent_id)
         if agent is None:
@@ -84,6 +85,7 @@ class AgentExecutor:
                 "prompt": user_prompt,
                 "intent_shard": decision.intent_shard,
                 "history": history or [],
+                "web_context": web_context or [],
                 "routing": {
                     "confidence": decision.confidence,
                     "rationale": decision.rationale,
@@ -133,6 +135,7 @@ class AgentExecutor:
                 f"[{agent.name}] Simulated handoff. Configure an endpoint in "
                 "CENTRI_AGENT_ENDPOINTS_JSON for real execution."
             ),
+            "web_context_items": len(web_context or []),
             "handoff": {
                 "runtime_provider": (agent.raw.get("runtime") or {}).get("provider"),
                 "model": (agent.raw.get("runtime") or {}).get("model"),

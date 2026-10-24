@@ -70,6 +70,17 @@ curl --location "http://localhost:8080/chat" ^
   --header "Content-Type: application/json" ^
   --data "{\"prompt\":\"My VPN stopped working after I changed my password.\"}"
 
+5a. Chat with live Tavily research
+-----------------------------------
+
+Purpose:
+Forces a functional runtime Tavily search and passes the returned web context
+to the selected agent runtime. Requires TAVILY_API_KEY in .env.
+
+curl --location "http://localhost:8080/chat" ^
+  --header "Content-Type: application/json" ^
+  --data "{\"prompt\":\"What are the latest enterprise security updates relevant to our IT policy?\",\"use_web_search\":true}"
+
 
 6. Chat with conversation history
 ---------------------------------

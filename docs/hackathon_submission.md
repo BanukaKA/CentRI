@@ -108,7 +108,8 @@ The current configuration uses:
   stage-two routing
 - `nvidia/nemotron-3-super-120b-a12b` for optional offline synthesis and
   compound-result synthesis
-- optional Tavily grounding for fresh-context synthetic query generation
+- Tavily for fresh-context synthetic generation and live `/chat` research
+  requests through `use_web_search: true`
 
 This satisfies the core design requirement to run on Nebius Token Factory and
 use an NVIDIA open-source model. For the final submission, capture a short
@@ -217,6 +218,7 @@ the author's history:
 - [ ] Public GitHub/GitLab/Bitbucket repository URL
 - [ ] Public working demo URL or hosted test build
 - [ ] Public YouTube demo video, three minutes or less
+- [x] Functional Tavily runtime path demonstrated through `/chat`
 - [ ] Final feedback on Nebius, NVIDIA, and Tavily usage
 - [ ] Track selection in Devpost
 

@@ -25,6 +25,7 @@ Show `.env` with secrets hidden and point out:
 NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1/
 CENTRI_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B
 CENTRI_LLM_MODEL=nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B
+TAVILY_API_KEY=<hidden>
 ```
 
 Say:
@@ -32,7 +33,24 @@ Say:
 > Embeddings create the routing memory. NVIDIA Nemotron on Nebius performs
 > runtime intent splitting and precision reranking.
 
-## 0:45–1:10 — Compile the catalog
+## 0:45–1:00 — Live research path
+
+Call `POST /chat` with:
+
+```json
+{
+  "prompt": "What are the latest enterprise security updates relevant to our IT policy?",
+  "use_web_search": true
+}
+```
+
+Say:
+
+> For freshness-sensitive requests, CentRI invokes Tavily at runtime and
+> passes the retrieved research context into the selected agent handoff.
+> This is separate from the offline Tavily-assisted query-generation path.
+
+## 1:00–1:25 — Compile the catalog
 
 Run:
 

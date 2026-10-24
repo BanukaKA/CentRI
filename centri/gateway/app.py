@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import time
 from contextlib import asynccontextmanager
 from typing import Any
@@ -12,6 +13,7 @@ from pydantic import BaseModel, Field
 
 from centri.agents.executor import AgentExecutor
 from centri.clients.nebius import NebiusClient
+from centri.clients.tavily import TavilyClient
 from centri.config import Settings, get_settings
 from centri.feedback.shadow_log import ShadowLogger
 from centri.gateway.auth import Principal, admin_principal, authenticated_principal
@@ -29,6 +31,10 @@ class ChatRequest(BaseModel):
     prompt: str = Field(..., min_length=1)
     history: list[ChatMessage] = Field(default_factory=list)
     approval_granted: bool = False
+    use_web_search: bool | None = Field(
+        default=None,
+        description="Enable live Tavily search; null enables freshness-aware auto detection",
+    )
 
 
 class RouteRequest(BaseModel):
@@ -47,6 +53,7 @@ class AppState:
     catalog: Any
     index: VectorIndex
     nebius: NebiusClient
+    tavily: TavilyClient
     router: CentRIRouter
     executor: AgentExecutor
     shadow: ShadowLogger
@@ -63,6 +70,7 @@ def _build_state() -> AppState:
         }
     )
     nebius = NebiusClient(settings)
+    tavily = TavilyClient(settings)
     router = CentRIRouter(settings, catalog, index, nebius)
     executor = AgentExecutor(catalog, settings)
     shadow = ShadowLogger(settings)
@@ -71,6 +79,7 @@ def _build_state() -> AppState:
     state.catalog = catalog
     state.index = index
     state.nebius = nebius
+    state.tavily = tavily
     state.router = router
     state.executor = executor
     state.shadow = shadow
@@ -225,33 +234,62 @@ async def chat(
         raise HTTPException(status_code=503, detail="Routing service unavailable") from exc
 
     history = [{"role": m.role, "content": m.content} for m in body.history]
+
+    async def retrieve_web_context(decision):
+        if decision.abstained or decision.agent_id is None:
+            return {"status": "not_requested", "results": []}
+        agent = st.catalog.by_id(decision.agent_id)
+        should_search = (
+            body.use_web_search
+            if body.use_web_search is not None
+            else st.tavily.should_search(decision.intent_shard, agent)
+        )
+        if not should_search:
+            return {"status": "not_requested", "results": []}
+        return await asyncio.to_thread(
+            st.tavily.runtime_search,
+            decision.intent_shard,
+            5,
+        )
+
     async def execute_decision(decision):
         if decision.abstained:
-            return {
-                "status": "abstained",
-                "message": "CentRI could not route this intent with sufficient confidence.",
-                "routable": False,
-            }
-        return await st.executor.execute(
+            return (
+                {
+                    "status": "abstained",
+                    "message": "CentRI could not route this intent with sufficient confidence.",
+                    "routable": False,
+                },
+                {"status": "not_requested", "results": []},
+            )
+        web = await retrieve_web_context(decision)
+        result = await st.executor.execute(
             decision,
             body.prompt,
             history,
             approval_granted=body.approval_granted,
+            web_context=web.get("results") or [],
         )
+        return result, web
 
     results = await asyncio.gather(
         *(execute_decision(decision) for decision in routing.decisions),
         return_exceptions=True,
     )
     outputs = []
-    for decision, result in zip(routing.decisions, results, strict=True):
-        if isinstance(result, Exception):
-            result = {
-                "status": "error",
-                "message": "Agent execution failed",
-                "routable": True,
-                "error_type": type(result).__name__,
-            }
+    for decision, execution in zip(routing.decisions, results, strict=True):
+        if isinstance(execution, Exception):
+            result, web = (
+                {
+                    "status": "error",
+                    "message": "Agent execution failed",
+                    "routable": True,
+                    "error_type": type(execution).__name__,
+                },
+                {"status": "error", "results": []},
+            )
+        else:
+            result, web = execution
         outputs.append(
             {
                 "routing": {
@@ -268,6 +306,7 @@ async def chat(
                     "abstention_reason": decision.abstention_reason,
                 },
                 "agent_response": result,
+                "web_research": web,
             }
         )
         st.shadow.log(
@@ -281,6 +320,7 @@ async def chat(
                 "compound": routing.compound,
                 "agent_refused": not result.get("routable", True),
                 "status": result.get("status"),
+                "web_search_status": web.get("status"),
             }
         )
 
@@ -354,7 +394,12 @@ def routing_feedback(
 def main() -> None:
     import uvicorn
 
-    uvicorn.run("centri.gateway.app:app", host="0.0.0.0", port=8080, reload=False)
+    uvicorn.run(
+        "centri.gateway.app:app",
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", "8080")),
+        reload=False,
+    )
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 
 **Central Routing Intelligence** — a semantic API gateway for agent swarms. Offline compilation expands each agent into a cluster of synthetic utterances; runtime routing is **retrieve (FAISS + k-NN vote) → re-rank (micro-LLM on Top-K schemas)** with optional **multi-intent sharding** and a **feedback loop** that appends correction vectors.
 
-Built for [Nebius Token Factory](https://docs.tokenfactory.nebius.com/) (OpenAI-compatible embeddings + chat) and optional [Tavily](https://tavily.com/) grounding for time-sensitive synthetic query generation.
+Built for [Nebius Token Factory](https://docs.tokenfactory.nebius.com/) (OpenAI-compatible embeddings + chat) and [Tavily](https://tavily.com/) for optional offline query generation and live runtime research.
 
 The hackathon configuration uses NVIDIA Nemotron Nano/Super through Nebius
 Token Factory for runtime decisions and synthesis, satisfying the NVIDIA model
@@ -68,8 +68,9 @@ can grow independently.
 agent, CentRI uses routing examples, golden cases, keywords, descriptions,
 tools, exclusions, required entities, workflow metadata, and adjacent-agent
 cards to build a query bank. Nebius generates additional synthetic queries
-when `--synthesize` is enabled. Tavily is optionally used only for fresh web
-context while generating examples for time-sensitive domains.
+when `--synthesize` is enabled. Tavily can provide fresh context during
+offline generation and can also be called on the live `/chat` path for
+freshness-sensitive requests.
 
 Nebius then embeds the query bank with `Qwen/Qwen3-Embedding-8B`. Vectors are
 normalized and written to a configurable FAISS index:
@@ -208,6 +209,8 @@ Hackathon materials:
   narrative, requirements, business case, evidence, and checklist
 - [`docs/hackathon_demo_script.md`](docs/hackathon_demo_script.md) — three-minute
   demo recording script
+- [`docs/free_deployment.md`](docs/free_deployment.md) — free Render demo
+  deployment and runtime Tavily qualification call
 - [`docs/hackathon_story.md`](docs/hackathon_story.md) — concise submission
   answers for inspiration, build, challenges, accomplishments, learning, and
   next steps
@@ -314,6 +317,9 @@ The container compiles the routing index on first start when no compiled index
 is mounted. For a hosted demo, precompile during the deployment job or mount
 `data/compiled/` as a persistent artifact.
 
+For the prepared free public deployment path, follow
+[`docs/free_deployment.md`](docs/free_deployment.md).
+
 ### 6. Smoke-test the running system
 
 Health:
@@ -383,7 +389,9 @@ See `.env.example`. Key settings:
 
 `/route` and `/chat` can abstain when similarity, candidate margin, or reranker
 confidence is below policy thresholds. `/chat` accepts `approval_granted` for
-catalog-declared side-effect/human-review gates.
+catalog-declared side-effect/human-review gates and `use_web_search` to invoke
+Tavily at runtime. Set `use_web_search` to `true` for a guaranteed live
+research call, or leave it `null` for freshness-aware automatic detection.
 
 ### HTTP agent runtime contract
 
