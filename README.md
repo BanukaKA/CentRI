@@ -201,6 +201,13 @@ The five-minute technical presentation is available at
 python scripts/generate_presentation.py
 ```
 
+The concise live-demo deck is available at
+`[CentRI_concise_presentation.pptx](CentRI_concise_presentation.pptx)`. Regenerate it with:
+
+```bash
+python scripts/generate_short_presentation.py
+```
+
 
 
 Hackathon materials:

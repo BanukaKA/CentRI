@@ -1,152 +1,121 @@
-# Three-minute CentRI demo script
+# 2:50 CentRI Render demo script
 
-This is the recommended screen-recording sequence for the Nebius x NVIDIA
-Global AI Hackathon submission.
+Live demo URL:
 
-## 0:00–0:20 — The problem
+```text
+https://centri-demo.onrender.com
+```
+
+Use Postman with the Render-ready cURLs in `postman_test.txt`. Keep all keys
+hidden on screen.
+
+## 0:00-0:15 - Problem
 
 Say:
 
 > Enterprise agent catalogs grow faster than a single router prompt can stay
-> accurate. CentRI is the semantic API gateway that gives the catalog one
-> front door.
+> accurate. CentRI gives the catalog one intelligent front door.
 
-Show the architecture diagram:
+## 0:15-0:30 - Architecture
 
-```text
-docs/centri-architecture.excalidraw
+Show the architecture slide and say:
+
+> CentRI compiles agent capability offline, searches local HNSW routing memory,
+> and sends only a small candidate set to NVIDIA Nemotron on Nebius GPUs.
+
+## 0:30-0:55 - Route a request
+
+In Postman, call `POST /route`:
+
+```json
+{"query":"My VPN stopped after a password change."}
 ```
 
-## 0:20–0:45 — Open infrastructure
+Point out `agent_id`, `agent_name`, candidates, confidence, and rationale.
 
-Show `.env` with secrets hidden and point out:
+Say:
 
-```text
-NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1/
-CENTRI_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B
-CENTRI_LLM_MODEL=nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B
-TAVILY_API_KEY=<hidden>
+> The gateway returns the exact agent ID required for the next handoff.
+
+## 0:55-1:25 - Show how to test the deployment
+
+First call:
+
+```bash
+curl https://centri-demo.onrender.com/health
 ```
 
 Say:
 
-> Embeddings create the routing memory. NVIDIA Nemotron on Nebius performs
-> runtime intent splitting and precision reranking.
+> Render's free service may cold-start. Run health first and wait for the
+> service to wake. The health response also returns ready-to-run test cURLs.
 
-## 0:45–1:00 — Live research path
+Then show `postman_test.txt`, import it into Postman, and point out that the
+requests target `https://centri-demo.onrender.com`, not localhost.
 
-Call `POST /chat` with:
+## 1:25-1:45 - Run chat and Tavily
+
+Call `POST /chat`:
 
 ```json
 {
-  "prompt": "What are the latest enterprise security updates relevant to our IT policy?",
-  "use_web_search": true
+  "prompt":"What are the latest enterprise security updates relevant to our IT policy?",
+  "use_web_search":true,
+  "approval_granted":true
 }
 ```
 
+Show `web_research.status = "ok"` and the returned sources.
+
 Say:
 
-> For freshness-sensitive requests, CentRI invokes Tavily at runtime and
-> passes the retrieved research context into the selected agent handoff.
-> This is separate from the offline Tavily-assisted query-generation path.
+> CentRI can invoke Tavily at runtime for freshness-sensitive requests and pass
+> the research context into the selected agent handoff.
 
-## 1:00–1:25 — Compile the catalog
+## 1:45-2:05 - Compound intent
 
-Run:
+Call `POST /route`:
 
-```powershell
-python -m scripts.compile
+```json
+{"query":"Analyze cloud infrastructure spend and prepare an incident summary."}
 ```
 
-Show:
+Show multiple `routes[]` entries.
+
+Say:
+
+> Compound requests are split into independently routable shards. Chat can
+> execute independent shards concurrently and synthesize the results.
+
+## 2:05-2:30 - Scale and evidence
+
+Show the benchmark slide:
 
 ```text
-data/compiled/faiss.index
-data/compiled/index_meta.json
-data/compiled/manifest.json
-data/compiled/vectors.jsonl
+100% candidate recall
+100% selective accuracy
+80% automatic coverage
+3.09s mean latency
+5.53s p95 latency
 ```
 
 Say:
 
-> Compilation happens when agents change, not when every user asks a
-> question. This is the amortization step.
+> The captured run routed every automatic decision correctly and abstained on
+> uncertain cases. The larger-scale thesis is that the model sees Top-K cards,
+> not the entire enterprise catalog.
 
-## 1:10–1:50 — Route one request
-
-Start the gateway:
-
-```powershell
-python -m centri.gateway.app
-```
-
-Open `http://localhost:8080/docs`, call `POST /route`, and use:
-
-```json
-{
-  "query": "My VPN stopped after a password change."
-}
-```
-
-Point out:
-
-- selected `agent_id`
-- selected `agent_name`
-- Top-3 candidates
-- similarity
-- candidate margin
-- Nemotron rationale
+## 2:30-2:50 - Close
 
 Say:
 
-> Retrieval narrows the entire catalog to a few candidates. Nemotron only
-> resolves the ambiguity among those candidates.
+> CentRI turns an expanding enterprise agent network into a semantic API:
+> one request enters, the right agent ID comes out, and approved enterprise
+> capabilities become efficiently available to authorized users.
 
-## 1:50–2:20 — Compound intent
+Presenter checklist:
 
-Call `POST /route` with:
-
-```json
-{
-  "query": "Analyze cloud infrastructure spend and prepare an incident summary."
-}
-```
-
-Show the multiple `routes[]` entries.
-
-Say:
-
-> A compound request becomes independently routable shards. `/chat` can
-> execute those shards concurrently and synthesize successful results.
-
-## 2:20–2:40 — Governance and safety
-
-Show:
-
-- abstention fields
-- `approval_granted`
-- JWT configuration
-- redacted shadow logs
-
-Say:
-
-> CentRI does not force a guess. It can abstain when evidence is weak and
-> requires approval before catalog-declared side effects.
-
-## 2:40–3:00 — Evidence
-
-Run:
-
-```powershell
-python -m scripts.benchmark_router --output data/benchmark_report.json
-```
-
-Show [`docs/benchmark_report.md`](benchmark_report.md).
-
-Close with:
-
-> On the current 20-case synthetic benchmark, CentRI retrieved the correct
-> candidate for every case and achieved 100% selective accuracy at 80%
-> coverage. The next scale test is a larger human-authored catalog and live
-> agent runtimes.
-
+- Wake Render with `/health` before recording.
+- Do not show `.env` or API keys.
+- Be transparent that sample agents return `simulated` without live runtime endpoints.
+- If Render is asleep, wait for the cold start before continuing.
