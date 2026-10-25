@@ -400,6 +400,61 @@ catalog-declared side-effect/human-review gates and `use_web_search` to invoke
 Tavily at runtime. Set `use_web_search` to `true` for a guaranteed live
 research call, or leave it `null` for freshness-aware automatic detection.
 
+### Live Postman verification
+
+These screenshots were captured while testing the deployed Render application
+at `https://centri-demo.onrender.com`. They show successful health checks,
+agent routing, safe abstention, chat execution, compound-intent behavior, and
+live Tavily research.
+
+<details>
+<summary>Health endpoint and generated test commands</summary>
+
+The health endpoint confirms that the HNSW index is loaded and returns
+ready-to-run cURLs for the other endpoints.
+
+![CentRI health endpoint showing loaded HNSW index and test cURLs](docs/assets/postman/04-health.png)
+
+</details>
+
+<details>
+<summary>Agent routing examples</summary>
+
+IT routing:
+
+![CentRI IT service desk routing result](docs/assets/postman/07-it-routing.png)
+
+Finance routing:
+
+![CentRI finance invoice routing result](docs/assets/postman/05-finance-routing.png)
+
+HR routing:
+
+![CentRI HR policy routing result](docs/assets/postman/08-hr-routing.png)
+
+Incident routing and abstention diagnostics:
+
+![CentRI engineering incident routing result](docs/assets/postman/03-incident-routing.png)
+
+</details>
+
+<details>
+<summary>Chat, Tavily, and compound-intent tests</summary>
+
+Chat with Tavily context:
+
+![CentRI chat response with Tavily web research context](docs/assets/postman/02-chat-tavily.png)
+
+Live Tavily research:
+
+![CentRI live Tavily research response](docs/assets/postman/06-live-tavily.png)
+
+Compound-intent routing and safe uncertainty handling:
+
+![CentRI compound-intent routing test](docs/assets/postman/01-compound-routing.png)
+
+</details>
+
 ### HTTP agent runtime contract
 
 When an endpoint is configured, CentRI sends a JSON `POST` payload like:
